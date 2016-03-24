@@ -3,21 +3,16 @@
 ### Čemu je ta repozitorij namenjen? ###
 
 * Projektu pri predmetu Osnove podatkovnih baz, Fakulteta za matematiko in fiziko, 2016
-* Naš projekt:
+* Naš projekt: Analiza zločinov oz. prekrškov na nekaterih ulicah UK, ki se nahajajo v podatkovnih tabelah `https://data.police.uk/data/`.
 
 ### Kratek opis projekta ###
 
-Osnovna verzija:
-
-* blabla
-
-Razširitve:
-
-* blabla
+* Okrožja: City of London Police, ...
+* Obdobje: 2015
 
 ### Vsebina repozitorija: ###
 
-* `gorila.py`: sledi opis, kaj je v tejle datotekici
+* `contributors.txt`: sodelavci :)
 
 ### Več informacij ... ###
 
