@@ -20,6 +20,6 @@
 * neza.dimec@student.fmf.uni-lj.si
 * katarina.cerne1@student.fmf.uni-lj.si
 
-
+### E-R diagram
 
 ![Diagram1.jpeg](https://bitbucket.org/repo/BEj8z9/images/1738987708-Diagram1.jpeg)
