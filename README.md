@@ -22,4 +22,4 @@
 
 ### E-R diagram
 
-![Diagram1.jpeg](https://bitbucket.org/repo/BEj8z9/images/1738987708-Diagram1.jpeg)
+![Diagram2.jpeg](https://bitbucket.org/repo/BEj8z9/images/2979732518-Diagram2.jpeg)
