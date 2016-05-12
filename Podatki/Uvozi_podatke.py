@@ -19,28 +19,87 @@ conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, passwo
 conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT) # onemogočimo transakcije
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
+def preveri(podatek):
+    if podatek == '':
+        return None
+    else:
+        return float(podatek)
+
 def uvozi_street(csv_datoteka):
     i = True
     with open(csv_datoteka, 'r') as csvfile:
-##        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in csvfile:
             if i:
                 i = False
                 continue
             row = (row.split(','))[:-1]
-            id_z = row[0]
-            if id_z == '':
-                continue
+            id_p = row[0]
+            if id_p == '':
+                id_p = None
             mesec = row[1][-2:]
+            mesec = preveri(mesec)
+            prijavil = row[2]
+            ukrepal = row[3]
             gsirina = row[4]
+            gsirina = preveri(gsirina)
             gdolzina = row[5]
-            ulica = row[6]
+            gdolzina = preveri(gdolzina)
+            lokacija = row[6]
+            if lokacija != 'No Location':
+                lokacija = lokacija[11:]
+            lsoa = row[7]
             tip = row[9]
-            cur.execute('''INSERT INTO Zlocin VALUES (%s, %s, %s, %s, %s, %s)''',
-                           [id_z, mesec, gsirina, gdolzina, ulica, tip])
+            status = row[10]
+            cur.execute('''INSERT INTO Zlocin (idp, mesec, prijavil, ukrepal, gsirina, gdolzina, lokacija, lsoa, tip, status)
+                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''',
+                           [id_p, mesec, prijavil, ukrepal, gsirina, gdolzina, lokacija, lsoa, tip, status])
+
+def uvozi_lsoa(csv_datoteka):
+    i = True
+    cur.execute('''SELECT id FROM lsoa''')
+    flattened = [val for sublist in cur.fetchall() for val in sublist]
+    s = set(flattened)
+    with open(csv_datoteka, 'r') as csvfile:
+        for row in csvfile:
+            if i:
+                i = False
+                continue
+            row = (row.split(','))[:-1]
+            koda = row[7]
+            if koda in s:
+                continue
+            else:
+                s.add(koda)
+            ime = row[8]
+            cur.execute('''INSERT INTO lsoa VALUES (%s, %s)''',
+                           [koda, ime])
     
 
 conn.commit()
 
 
-##uvozi_street('2015-06-city-of-london-street.csv')
+##uvozi_street('2015-01/2015-01-city-of-london-street.csv')
+##uvozi_street('2015-02/2015-02-city-of-london-street.csv')
+##uvozi_street('2015-03/2015-03-city-of-london-street.csv')
+##uvozi_street('2015-04/2015-04-city-of-london-street.csv')
+##uvozi_street('2015-05/2015-05-city-of-london-street.csv')
+##uvozi_street('2015-06/2015-06-city-of-london-street.csv')
+##uvozi_street('2015-07/2015-07-city-of-london-street.csv')
+##uvozi_street('2015-08/2015-08-city-of-london-street.csv')
+##uvozi_street('2015-09/2015-09-city-of-london-street.csv')
+##uvozi_street('2015-10/2015-10-city-of-london-street.csv')
+##uvozi_street('2015-11/2015-11-city-of-london-street.csv')
+##uvozi_street('2015-12/2015-12-city-of-london-street.csv')
+
+##uvozi_lsoa('2015-01/2015-01-city-of-london-street.csv')
+##uvozi_lsoa('2015-02/2015-02-city-of-london-street.csv')
+##uvozi_lsoa('2015-03/2015-03-city-of-london-street.csv')
+##uvozi_lsoa('2015-04/2015-04-city-of-london-street.csv')
+##uvozi_lsoa('2015-05/2015-05-city-of-london-street.csv')
+##uvozi_lsoa('2015-06/2015-06-city-of-london-street.csv')
+##uvozi_lsoa('2015-07/2015-07-city-of-london-street.csv')
+##uvozi_lsoa('2015-08/2015-08-city-of-london-street.csv')
+##uvozi_lsoa('2015-09/2015-09-city-of-london-street.csv')
+##uvozi_lsoa('2015-10/2015-10-city-of-london-street.csv')
+##uvozi_lsoa('2015-11/2015-11-city-of-london-street.csv')
+##uvozi_lsoa('2015-12/2015-12-city-of-london-street.csv')

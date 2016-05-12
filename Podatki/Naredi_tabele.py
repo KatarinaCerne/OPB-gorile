@@ -17,14 +17,19 @@ conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, passwo
 conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT) # onemogočimo transakcije
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-cur.execute('''CREATE TABLE Zlocin (id text PRIMARY KEY,
-                                       mesec text,
-                                       gSirina text,
-                                       gDolzina text,
-                                       ulica text,
-                                       tip text)''')
+##cur.execute('''CREATE TABLE Zlocin (id SERIAL PRIMARY KEY,
+##                                    idP text,
+##                                    mesec int,
+##                                    prijavil text,
+##                                    ukrepal text,
+##                                    gSirina decimal,
+##                                    gDolzina decimal,
+##                                    lokacija text,
+##                                    lsoa text,                                  
+##                                    tip text,
+##                                    status text)''')
 
-## cur.execute('''CREATE TABLE Okrozje (ime text PRIMARY KEY)''')
+##cur.execute('''CREATE TABLE Okrozje (ime text PRIMARY KEY)''')
 
 ##cur.execute('''CREATE TABLE Postopek (id text PRIMARY KEY,
 ##                                      kazen text)''')
@@ -41,6 +46,14 @@ cur.execute('''CREATE TABLE Zlocin (id text PRIMARY KEY,
 ##                                       tip text,
 ##                                       predmetPreiskave text,
 ##                                       stanje text)''')
+##
+##cur.execute('''CREATE TABLE Lokacija (id text PRIMARY KEY,
+##                                      lsoa text)''')
+
+
+
+##cur.execute('''CREATE TABLE LSOA (id text PRIMARY KEY,
+##                                  ime text)''')
 
 conn.commit()
 
