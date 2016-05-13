@@ -73,8 +73,80 @@ def uvozi_lsoa(csv_datoteka):
             ime = row[8]
             cur.execute('''INSERT INTO lsoa VALUES (%s, %s)''',
                            [koda, ime])
-    
 
+def uvozi_preiskava(csv_datoteka):
+    i = True
+    with open(csv_datoteka, 'r') as csvfile:
+        for row in csvfile:
+            if i:
+                i = False
+                continue
+            row = (row.split(','))[:-1]
+            tip = row[0]
+            datum = row[1]
+            dan = datum[8:10]
+            mesec = datum[5:7]
+            gsirina = row[4]
+            gsirina = preveri(gsirina)
+            gdolzina = row[5]
+            gdolzina = preveri(gdolzina)
+            spol = row[6]
+            starost = row[7]
+            if starost == '':
+                starostmin = None
+                starostmax = None
+            else:
+                starostmin = smin(starost)
+                starostmax = smax(starost)
+            rasa = row[8]
+            uradnarasa = row[9]
+            predmetpreiskave = row[11]
+            stanje = row[12]
+            cur.execute('''INSERT INTO Preiskava (tip, dan, mesec, gsirina, gdolzina, spol, starostmin, starostmax, rasa, uradnarasa, predmetpreiskave, stanje)
+                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''',
+                           [tip, dan, mesec, gsirina, gdolzina, spol, starostmin, starostmax, rasa, uradnarasa, predmetpreiskave, stanje])
+
+def smin(starost):
+    if 'over' in starost:
+        return int(starost[5:])
+    elif 'under' in starost:
+        return None
+    else:
+        return int(starost[:2])
+
+def smax(starost):
+    if 'over' in starost:
+        return None
+    elif 'under' in starost:
+        return int(starost[6:])
+    else:
+        return int(starost[3:])
+
+def uvozi_postopek(csv_datoteka):
+    i = True
+    with open(csv_datoteka, 'r') as csvfile:
+        for row in csvfile:
+            if i:
+                i = False
+                continue
+            row = (row.split(','))
+            idp = row[0]
+            mesec = row[1][5:]
+            prijavil = row[2]
+            ukrepal = row[3]
+            gsirina = row[4]
+            gsirina = preveri(gsirina)
+            gdolzina = row[5]
+            gdolzina = preveri(gdolzina)
+            lokacija = row[6]
+            lsoa = row[7]
+            stanje = row[9]
+            cur.execute('''INSERT INTO Postopek (idp, mesec, prijavil, ukrepal, gsirina, gdolzina, lokacija, lsoa, stanje)
+                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''',
+                           [idp, mesec, prijavil, ukrepal, gsirina, gdolzina, lokacija, lsoa, stanje])
+            
+                          
+    
 conn.commit()
 
 
@@ -103,3 +175,27 @@ conn.commit()
 ##uvozi_lsoa('2015-10/2015-10-city-of-london-street.csv')
 ##uvozi_lsoa('2015-11/2015-11-city-of-london-street.csv')
 ##uvozi_lsoa('2015-12/2015-12-city-of-london-street.csv')
+
+##uvozi_preiskava('2015-03/2015-03-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-04/2015-04-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-05/2015-05-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-06/2015-06-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-07/2015-07-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-08/2015-08-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-09/2015-09-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-10/2015-10-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-11/2015-11-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('2015-12/2015-12-city-of-london-stop-and-search.csv')
+
+##uvozi_postopek('2015-01/2015-01-city-of-london-street.csv')
+##uvozi_postopek('2015-02/2015-02-city-of-london-street.csv')
+##uvozi_postopek('2015-03/2015-03-city-of-london-street.csv')
+##uvozi_postopek('2015-04/2015-04-city-of-london-street.csv')
+##uvozi_postopek('2015-05/2015-05-city-of-london-street.csv')
+##uvozi_postopek('2015-06/2015-06-city-of-london-street.csv')
+##uvozi_postopek('2015-07/2015-07-city-of-london-street.csv')
+##uvozi_postopek('2015-08/2015-08-city-of-london-street.csv')
+##uvozi_postopek('2015-09/2015-09-city-of-london-street.csv')
+##uvozi_postopek('2015-10/2015-10-city-of-london-street.csv')
+##uvozi_postopek('2015-11/2015-11-city-of-london-street.csv')
+##uvozi_postopek('2015-12/2015-12-city-of-london-street.csv')

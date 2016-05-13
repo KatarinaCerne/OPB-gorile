@@ -29,24 +29,32 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 ##                                    tip text,
 ##                                    status text)''')
 
-##cur.execute('''CREATE TABLE Okrozje (ime text PRIMARY KEY)''')
+##cur.execute('''CREATE TABLE Postopek (id SERIAL PRIMARY KEY,
+##                                      idP text,
+##                                      mesec int,
+##                                      prijavil text,
+##                                      ukrepal text,
+##                                      gSirina decimal,
+##                                      gDolzina decimal,
+##                                      lokacija text,
+##                                      lsoa text,
+##                                      stanje text)''')
 
-##cur.execute('''CREATE TABLE Postopek (id text PRIMARY KEY,
-##                                      kazen text)''')
 
 ##cur.execute('''CREATE TABLE Preiskava (id SERIAL PRIMARY KEY,
-##                                       datum date,
-##                                       gSirina int,
-##                                       gDolzina int,
+##                                       tip text,
+##                                       dan int,
+##                                       mesec int,
+##                                       gSirina decimal,
+##                                       gDolzina decimal,
 ##                                       spol text,
 ##                                       starostMin int,
 ##                                       starostMax int,
 ##                                       rasa text,
 ##                                       uradnaRasa text,
-##                                       tip text,
 ##                                       predmetPreiskave text,
 ##                                       stanje text)''')
-##
+
 ##cur.execute('''CREATE TABLE Lokacija (id text PRIMARY KEY,
 ##                                      lsoa text)''')
 
