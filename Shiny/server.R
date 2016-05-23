@@ -13,7 +13,7 @@ shinyServer(function(input, output) {
   tbl.postopek <- tbl(conn, "postopek")
   tbl.preiskava <- tbl(conn, "preiskava")
   #tbl.lokacija <- tbl(conn, "lokacija") tole zakomentiramo, ni v bazi
-  tbl.lsoa <- tbl(conn, "lsoa")
+  zbl.lsoa <- tbl(conn, "lsoa")
   
   output$zlocini <- renderTable({
     t <- tbl.zlocin %>% data.frame()
