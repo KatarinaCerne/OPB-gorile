@@ -1,9 +1,8 @@
-
 library(shiny)
 
 shinyUI(fluidPage(
   
-  titlePanel("Zločini"),
+  titlePanel("Zlocini"),
   
   sidebarLayout(
     sidebarPanel(

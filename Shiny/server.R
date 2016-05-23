@@ -9,11 +9,11 @@ shinyServer(function(input, output) {
   conn <- src_postgres(dbname = db, host = host,
                        user = user, password = password)
   # Pripravimo tabele
-  tbl.zlocin <- tbl(conn, "Zlocin")
-  tbl.postopek <- tbl(conn, "Postopek")
-  tbl.preiskava <- tbl(conn, "Preiskava")
-  tbl.lokacija <- tbl(conn, "Lokacija")
-  tbl.lsoa <- tbl(conn, "LSOA")
+  tbl.zlocin <- tbl(conn, "zlocin")
+  tbl.postopek <- tbl(conn, "postopek")
+  tbl.preiskava <- tbl(conn, "preiskava")
+  #tbl.lokacija <- tbl(conn, "lokacija") tole zakomentiramo, ni v bazi
+  tbl.lsoa <- tbl(conn, "lsoa")
   
   output$zlocini <- renderTable({
     t <- tbl.zlocin %>% data.frame()
