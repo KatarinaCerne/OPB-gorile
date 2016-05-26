@@ -18,10 +18,13 @@ shinyServer(function(input, output) {
   #tbl.lokacija <- tbl(conn, "lokacija") tole zakomentiramo, ni v bazi
   zbl.lsoa <- tbl(conn, "lsoa")
   
+  
   output$zlocini <- renderTable({
     t <- tbl.zlocin %>% data.frame()
     t
   })
+  
+  
   output$postopki <- renderTable(
     {
       t1 <- tbl.postopek %>% data.frame()
@@ -31,9 +34,7 @@ shinyServer(function(input, output) {
   output$postopkiPita <- renderPlot({
   plotData <- tbl.zlocin %>% select(status) %>% data.frame() %>% table()
   oznake <- paste(names(plotData), "\n", plotData, sep="")
-  
   pie3D(plotData, labels = oznake, explode = 0.1, main = "Zlocini")
-  
   #barp(plotData,width=0.4,names.arg=oznake,legend.lab=NULL,legend.pos=NULL,
   #     col=NULL,border=par("fg"),main="zlocini",xlab="",ylab="",xlim=NULL,ylim=NULL,
   #     x=NULL,staxx=FALSE,staxy=FALSE, height.at=NULL,height.lab=NULL,
@@ -41,13 +42,14 @@ shinyServer(function(input, output) {
   #     do.first=NULL,ylog=FALSE,srt=NA)
   #  })
  
-}
-)
+  })
+  
+  
   # Zemljevid, trenutno samo za City od London
   output$map <- renderPlot({
     crimes <- tbl.zlocin %>% data.frame()
     zemljevid <- qmap('City of London', zoom = 14, maptype = 'hybrid')
-    zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=3, alpha=0.5)
+    zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
   })
   
   
