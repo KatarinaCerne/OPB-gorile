@@ -17,14 +17,17 @@ shinyServer(function(input, output) {
   tbl.preiskava <- tbl(conn, "preiskava")
   #tbl.lokacija <- tbl(conn, "lokacija") tole zakomentiramo, ni v bazi
   zbl.lsoa <- tbl(conn, "lsoa")
+  ttt <- tbl.zlocin %>% select(status) %>% group_by(status)%>%data.frame()
+  
   
   
   output$zlocini <- renderTable({
-    t <- tbl.zlocin %>% data.frame()
-    t
+    t <- tbl.zlocin %>% select(status) %>% group_by(status) %>% summarise(stevilo=n())%>% select(stevilo)%>%data.frame()
+    #t2<-unlist(t)%>%table()
+    #
+    
   })
-  
-  
+
   output$postopki <- renderTable(
     {
       t1 <- tbl.postopek %>% data.frame()
@@ -32,17 +35,17 @@ shinyServer(function(input, output) {
     }
   )
   output$postopkiPita <- renderPlot({
-  plotData <- tbl.zlocin %>% select(status) %>% data.frame() %>% table()
-  oznake <- paste(names(plotData), "\n", plotData, sep="")
-  pie3D(plotData, labels = oznake, explode = 0.1, main = "Zlocini")
-  #barp(plotData,width=0.4,names.arg=oznake,legend.lab=NULL,legend.pos=NULL,
-  #     col=NULL,border=par("fg"),main="zlocini",xlab="",ylab="",xlim=NULL,ylim=NULL,
-  #     x=NULL,staxx=FALSE,staxy=FALSE, height.at=NULL,height.lab=NULL,
-  #     cex.axis=par("cex.axis"),pch=NULL,cylindrical=FALSE,shadow=FALSE,
-  #     do.first=NULL,ylog=FALSE,srt=NA)
-  #  })
- 
-  })
+
+    #plotData <- tbl.zlocin %>% select(status) %>% group_by(status)
+    #oznake <- paste(names(plotData), "\n", plotData, sep="")
+    #delezi <- 
+    t2<-Map(as.integer,t)
+    oznake<-ttt
+    lables1 <- round(t2/sum(t2)*100,1)
+    
+    #pie3D(plotData, labels = oznake, explode = 0.1, main = "Zlocini")
+    pie(t2,main="Zlocini",labels=lables1,cex=0.8)
+    #legend("topleft", oznake, cex=0.8)
   
   
   # Zemljevid, trenutno samo za City od London
@@ -53,4 +56,8 @@ shinyServer(function(input, output) {
   })
   
   
-})
+  }
+  )
+}
+
+)
