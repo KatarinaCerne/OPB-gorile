@@ -17,6 +17,14 @@ shinyUI(navbarPage("Zlocini UK",
                             sidebarLayout(
                               sidebarPanel(""),
                               mainPanel(tableOutput("postopki"))
-                            ))
+                            )
+                   ),
+                   tabPanel("Zemljevid",
+                            sidebarLayout(
+                              sidebarPanel("Na desnem zemljevidu so markirani zlocini, ki so se zgodili v City of London."),
+                              mainPanel(plotOutput("map"))
+                            )
+                   )
+                   
 )
 )

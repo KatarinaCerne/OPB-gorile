@@ -3,6 +3,7 @@ library(dplyr)
 library(RPostgreSQL)
 library(ggplot2)
 library(plotrix)
+library(ggmap)
 
 source("auth.R")
 
@@ -39,8 +40,15 @@ shinyServer(function(input, output) {
   #     cex.axis=par("cex.axis"),pch=NULL,cylindrical=FALSE,shadow=FALSE,
   #     do.first=NULL,ylog=FALSE,srt=NA)
   #  })
-
-  
+ 
 }
 )
+  # Zemljevid, trenutno samo za City od London
+  output$map <- renderPlot({
+    crimes <- tbl.zlocin %>% data.frame()
+    zemljevid <- qmap('City of London', zoom = 14, maptype = 'hybrid')
+    zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=3, alpha=0.5)
+  })
+  
+  
 })
