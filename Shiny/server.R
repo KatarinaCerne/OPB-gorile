@@ -20,22 +20,20 @@ shinyServer(function(input, output) {
   ttt <- tbl.zlocin %>% select(status) %>% group_by(status)%>%data.frame()
   
   
-  
   output$zlocini <- renderTable({
     t <- tbl.zlocin %>% select(status) %>% group_by(status) %>% summarise(stevilo=n())%>% select(stevilo)%>%data.frame()
     #t2<-unlist(t)%>%table()
     #
-    
   })
 
-  output$postopki <- renderTable(
-    {
+  
+  output$postopki <- renderTable({
       t1 <- tbl.postopek %>% data.frame()
       t1
-    }
-  )
+  })
+  
+  
   output$postopkiPita <- renderPlot({
-
     #plotData <- tbl.zlocin %>% select(status) %>% group_by(status)
     #oznake <- paste(names(plotData), "\n", plotData, sep="")
     #delezi <- 
