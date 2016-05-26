@@ -46,6 +46,7 @@ shinyServer(function(input, output) {
     #pie3D(plotData, labels = oznake, explode = 0.1, main = "Zlocini")
     pie(t2,main="Zlocini",labels=lables1,cex=0.8)
     #legend("topleft", oznake, cex=0.8)
+  })
   
   
   # Zemljevid, trenutno samo za City od London
@@ -56,8 +57,4 @@ shinyServer(function(input, output) {
   })
   
   
-  }
-  )
-}
-
-)
+})
