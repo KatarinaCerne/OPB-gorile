@@ -21,8 +21,20 @@ shinyUI(navbarPage("Zlocini UK",
                    ),
                    tabPanel("Zemljevid",
                             sidebarLayout(
-                              sidebarPanel("Na desnem zemljevidu so markirani zlocini, ki so se zgodili v City of London."),
-                              mainPanel(plotOutput("map"))
+                              sidebarPanel(
+                                helpText("Na desnem zemljevidu so markirani zlocini, ki so se zgodili v City of London."),
+                                selectInput("mesto_zemljevid", 
+                                            label = "Izberi mesto prikaza",
+                                            choices = c("City Of London", "Ljubljana",
+                                                        "Liverpool"),
+                                            selected = "City of London"),
+                                
+                                sliderInput("zzz", 
+                                            label = "Zoomiranje zemljevida:",
+                                            min = 0, max = 100, value = 14, step = 1)
+                                           ),
+                              mainPanel(plotOutput("map"),
+                                        textOutput("text1"))
                             )
                    )
                    

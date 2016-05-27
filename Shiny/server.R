@@ -7,7 +7,7 @@ library(ggmap)
 
 source("auth.R")
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, clientData, session) {
   # Vzpostavimo povezavo
   conn <- src_postgres(dbname = db, host = host,
                        user = user, password = password)
@@ -47,11 +47,22 @@ shinyServer(function(input, output) {
   })
   
   
+  # Spremljamo, kako se spreminja zoom
+  observe({
+    z <- input$zzz
+    updateSliderInput(session, "zzz", value = z)
+  })
+  
   # Zemljevid, trenutno samo za City od London
   output$map <- renderPlot({
     crimes <- tbl.zlocin %>% data.frame()
-    zemljevid <- qmap('City of London', zoom = 14, maptype = 'hybrid')
+    zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = 'hybrid')
     zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
+  })
+  
+  # Tekst pod zemljevidom, samo testno
+  output$text1 <- renderText({ 
+    paste("Izbrali ste mesto", input$mesto_zemljevid, "Zoom:", input$zzz)
   })
   
   
