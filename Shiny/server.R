@@ -39,16 +39,22 @@ shinyServer(function(input, output, clientData, session) {
     ggplot(plotData, aes(x = factor(1), y = count, fill = status)) +
       geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") +
       xlab("") + ylab("")
-    #plotData <- tbl.zlocin %>% select(status) %>% group_by(status)
-    #oznake <- paste(names(plotData), "\n", plotData, sep="")
-    #delezi <- 
-    #t2<-Map(as.integer,t)
-    #oznake<-ttt
-    #lables1 <- round(t2/sum(t2)*100,1)
-    
-    #pie3D(plotData, labels = oznake, explode = 0.1, main = "Zlocini")
-    #pie(t2,main="Zlocini",labels=lables1,cex=0.8)
-    #legend("topleft", oznake, cex=0.8)
+  })
+  
+  output$line_graph <- renderPlot({
+    if (input$checkbox_z && input$checkbox_p){
+      data1 <- tbl.zlocin %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data2 <- tbl.preiskava %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- rbind(data1, data2)
+    }
+    else if (input$checkbox_z){
+      data <- tbl.zlocin %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+    }
+    else if (input$checkbox_p){
+      data <- tbl.preiskava %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+    }
+    ggplot(data=data, aes(x=mesec, y=count, fill=mesec)) + 
+      geom_bar(colour="black", width=.8, stat="identity")
   })
   
   

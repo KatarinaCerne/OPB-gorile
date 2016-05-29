@@ -36,6 +36,15 @@ shinyUI(navbarPage("Zlocini UK",
                               mainPanel(plotOutput("map"),
                                         textOutput("text1"))
                             )
+                   ),
+                   tabPanel("Mesecno st. ukrepanj",
+                            sidebarLayout(
+                              sidebarPanel(checkboxInput("checkbox_z", label = "Zlocin", value = TRUE),
+                                           checkboxInput("checkbox_p", label = "Preiskava", value = TRUE)
+                                           ),
+                              mainPanel(plotOutput("line_graph"))
+                            )
+                            
                    )
                    
 )
