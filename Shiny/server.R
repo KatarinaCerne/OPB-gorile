@@ -42,16 +42,17 @@ shinyServer(function(input, output, clientData, session) {
   })
   
   output$line_graph <- renderPlot({
+    city <- paste(input$city, "Police", sep = " ")
     if (input$checkbox_z && input$checkbox_p){
-      data1 <- tbl.zlocin %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
-      data2 <- tbl.preiskava %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data1 <- tbl.zlocin %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data2 <- tbl.postopek %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       data <- rbind(data1, data2)
     }
     else if (input$checkbox_z){
-      data <- tbl.zlocin %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.zlocin %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
     }
     else if (input$checkbox_p){
-      data <- tbl.preiskava %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.postopek %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
     }
     ggplot(data=data, aes(x=mesec, y=count, fill=mesec)) + 
       geom_bar(colour="black", width=.8, stat="identity") + 

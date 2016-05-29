@@ -39,8 +39,14 @@ shinyUI(navbarPage("Zlocini UK",
                    ),
                    tabPanel("Mesecno st. ukrepanj",
                             sidebarLayout(
-                              sidebarPanel(checkboxInput("checkbox_z", label = "Zlocin", value = TRUE),
-                                           checkboxInput("checkbox_p", label = "Preiskava", value = TRUE)
+                              sidebarPanel(selectInput("city",
+                                                       label = "Izberi mesto prikaza",
+                                                       choices = c("City of London", "Cleveland"),
+                                                       selected = "City of London"),
+                                           checkboxInput("checkbox_z", 
+                                                         label = "Zlocin", value = TRUE),
+                                           checkboxInput("checkbox_p", 
+                                                         label = "Postopek", value = TRUE)
                                            ),
                               mainPanel(plotOutput("line_graph"))
                             )
