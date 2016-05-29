@@ -34,15 +34,20 @@ shinyServer(function(input, output, clientData, session) {
   
   
   output$postopkiPita <- renderPlot({
+    plotData <- tbl.zlocin %>% group_by(status) %>%
+      summarise(count = count(status)) %>% data.frame()
+    ggplot(plotData, aes(x = factor(1), y = count, fill = status)) +
+      geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") +
+      xlab("") + ylab("")
     #plotData <- tbl.zlocin %>% select(status) %>% group_by(status)
     #oznake <- paste(names(plotData), "\n", plotData, sep="")
     #delezi <- 
-    t2<-Map(as.integer,t)
-    oznake<-ttt
-    lables1 <- round(t2/sum(t2)*100,1)
+    #t2<-Map(as.integer,t)
+    #oznake<-ttt
+    #lables1 <- round(t2/sum(t2)*100,1)
     
     #pie3D(plotData, labels = oznake, explode = 0.1, main = "Zlocini")
-    pie(t2,main="Zlocini",labels=lables1,cex=0.8)
+    #pie(t2,main="Zlocini",labels=lables1,cex=0.8)
     #legend("topleft", oznake, cex=0.8)
   })
   

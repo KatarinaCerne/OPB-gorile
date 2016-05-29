@@ -7,10 +7,10 @@ shinyUI(navbarPage("Zlocini UK",
                                       "V naslednjem zavihku je tabela zlocinov, vendar moras malcek pocakati, da se nalozi.")
                    ),
                    tabPanel("Tabelica zlocinov",
-                            sidebarLayout(
-                              sidebarPanel(plotOutput("postopkiPita")),
-                              mainPanel(tableOutput("zlocini"))
-                            )
+                            #sidebarLayout(
+                              mainPanel(plotOutput("postopkiPita"))
+                              #,sidebarPanel(tableOutput("zlocini"))
+                            #)
                       
                    ),
                    tabPanel("Postopki",
