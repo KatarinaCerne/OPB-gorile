@@ -54,7 +54,10 @@ shinyServer(function(input, output, clientData, session) {
       data <- tbl.preiskava %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
     }
     ggplot(data=data, aes(x=mesec, y=count, fill=mesec)) + 
-      geom_bar(colour="black", width=.8, stat="identity")
+      geom_bar(colour="black", width=.8, stat="identity") + 
+      scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
+                       labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) +
+      theme(legend.position='none')
   })
   
   
