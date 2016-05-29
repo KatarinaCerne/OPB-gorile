@@ -38,9 +38,17 @@ shinyServer(function(input, output, clientData, session) {
     }
     else if (pr_podatki == "starost"){
       plotData1 <- tbl.preiskava %>% group_by(starostmin)%>%summarise(count=count(starostmin))%>%data.frame()
-      ggplot(plotData1, aes(x = factor(1), y = count, fill = starostmin)) + 
-        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
-        xlab("") + ylab("")
+      
+      ggplot(data=plotData1, aes(x=starostmin, y=count, fill=starostmin)) + 
+        geom_bar(colour="black", width=1.3, stat="identity") + 
+        scale_x_discrete(limit = c("10", "18", "25", "34"),
+                         labels = c("10-17","18-24","25-33", "34-")) +
+        theme(legend.position='none')
+      #popravi tako, da bo napisal lables!!
+      
+      #ggplot(plotData1, aes(x = factor(1), y = count, fill = starostmin)) + 
+       # geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        #xlab("") + ylab("")
     }
     else if (pr_podatki == "rasa"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
@@ -76,6 +84,7 @@ shinyServer(function(input, output, clientData, session) {
     ggplot(plotData, aes(x = factor(1), y = count, fill = status)) +
       geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") +
       xlab("") + ylab("")
+    #dokaj nepregledno. alternativa?
   })
   
   output$line_graph <- renderPlot({
