@@ -6,18 +6,23 @@ shinyUI(navbarPage("Zlocini UK",
                                       tags$br(),
                                       "V naslednjem zavihku je tabela zlocinov, vendar moras malcek pocakati, da se nalozi.")
                    ),
-                   tabPanel("Tabelica zlocinov",
+                   tabPanel("Zlocini",
                             #sidebarLayout(
                               mainPanel(plotOutput("postopkiPita"))
                               #,sidebarPanel(tableOutput("zlocini"))
                             #)
                       
                    ),
-                   tabPanel("Postopki",
+                   tabPanel("Preiskave",
                             sidebarLayout(
-                              sidebarPanel(""),
-                              mainPanel(tableOutput("postopki"))
+                              mainPanel(plotOutput("preiskave")),
+                              sidebarPanel(selectInput("podatek",
+                                                       label = "Izberi vrsto podatkov",
+                                                       choices = c("spol", "starost", "rasa","uradna rasa", "predmet preiskave","stanje","tip"),
+                                                       selected = "spol")
+                              
                             )
+                   )
                    ),
                    tabPanel("Zemljevid",
                             sidebarLayout(

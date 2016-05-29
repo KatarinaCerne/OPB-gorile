@@ -3,7 +3,7 @@ library(dplyr)
 library(RPostgreSQL)
 library(ggplot2)
 library(plotrix)
-library(ggmap)
+#library(ggmap)
 
 source("auth.R")
 
@@ -27,9 +27,46 @@ shinyServer(function(input, output, clientData, session) {
   })
 
   
-  output$postopki <- renderTable({
-      t1 <- tbl.postopek %>% data.frame()
-      t1
+  output$preiskave <- renderPlot({
+    pr_podatki <- paste(input$podatek)
+    #bi se dalo to kako bolj elegantno?
+    if(pr_podatki == "spol"){
+      plotData1 <- tbl.preiskava %>% group_by(spol)%>%summarise(count=count(spol))%>%data.frame()
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = spol)) + 
+        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        xlab("") + ylab("")
+    }
+    else if (pr_podatki == "starost"){
+      plotData1 <- tbl.preiskava %>% group_by(starostmin)%>%summarise(count=count(starostmin))%>%data.frame()
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = starostmin)) + 
+        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        xlab("") + ylab("")
+    }
+    else if (pr_podatki == "rasa"){
+      plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = rasa)) + 
+        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        xlab("") + ylab("")
+    }
+    else if (pr_podatki == "uradna rasa"){
+      plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
+        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        xlab("") + ylab("")
+    }
+    else if (pr_podatki == "predmet preiskave"){
+      plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = predmetpreiskave)) + 
+        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        xlab("") + ylab("")
+    }
+    else if (pr_podatki == "stanje"){
+      plotData1 <- tbl.preiskava %>% group_by(stanje)%>%summarise(count=count(stanje))%>%data.frame()
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = stanje)) + 
+        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        xlab("") + ylab("")
+    }
+    #manjka še za tip
   })
   
   
