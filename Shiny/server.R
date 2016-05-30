@@ -3,7 +3,8 @@ library(dplyr)
 library(RPostgreSQL)
 library(ggplot2)
 library(plotrix)
-#library(ggmap)
+library(ggmap)
+library(RColorBrewer)
 
 #source("auth.R")
 source("auth_public.R")
@@ -40,40 +41,45 @@ shinyServer(function(input, output, clientData, session) {
     else if (pr_podatki == "starost"){
       plotData1 <- tbl.preiskava %>% group_by(starostmin)%>%summarise(count=count(starostmin))%>%data.frame()
       
-      ggplot(data=plotData1, aes(x=starostmin, y=count, fill=starostmin)) + 
-        geom_bar(colour="black", width=1.3, stat="identity") + 
-        scale_x_discrete(limit = c("10", "18", "25", "34"),
-                         labels = c("10-17","18-24","25-33", "34-")) +
-        theme(legend.position='none')
+      #ggplot(data=plotData1, aes(x=starostmin, y=count, fill=starostmin)) + 
+      #  geom_bar(colour="black", width=1.3, stat="identity") + 
+      #  scale_x_discrete(limit = c("10", "18", "25", "34"),
+      #                   labels = c("10-17","18-24","25-33", "34-")) +
+      #  theme(legend.position='none')
       #popravi tako, da bo napisal lables!!
       
-      #ggplot(plotData1, aes(x = factor(1), y = count, fill = starostmin)) + 
-       # geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
-        #xlab("") + ylab("")
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = starostmin)) + 
+        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        xlab("") + ylab("")
     }
     else if (pr_podatki == "rasa"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
-      ggplot(plotData1, aes(x = factor(1), y = count, fill = rasa)) + 
-        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
-        xlab("") + ylab("")
+      ggplot(plotData1, aes(x = rasa, y = count, fill = rasa)) + 
+        geom_bar(stat = "identity", width = 1) +
+        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
+      
+        #theme(axis.text.x = element_text(angle = 90, hjust = 1),legend.position = 'none')
+        
     }
     else if (pr_podatki == "uradna rasa"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
       ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
-        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
+        geom_bar(stat = "identity", width = 1)  + coord_polar(theta = "y")+
         xlab("") + ylab("")
     }
     else if (pr_podatki == "predmet preiskave"){
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
-      ggplot(plotData1, aes(x = factor(1), y = count, fill = predmetpreiskave)) + 
-        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
-        xlab("") + ylab("")
+      ggplot(plotData1, aes(x = predmetpreiskave, y = count, fill = predmetpreiskave)) + 
+        geom_bar(stat = "identity", width = 1) + 
+        #coord_polar(theta = "y") + 
+        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "stanje"){
       plotData1 <- tbl.preiskava %>% group_by(stanje)%>%summarise(count=count(stanje))%>%data.frame()
-      ggplot(plotData1, aes(x = factor(1), y = count, fill = stanje)) + 
-        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
-        xlab("") + ylab("")
+      ggplot(plotData1, aes(x = stanje, y = count, fill = stanje)) + 
+        geom_bar(stat = "identity", width = 1) + 
+        #coord_polar(theta = "y") + 
+        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     #manjka še za tip
   })
@@ -82,10 +88,10 @@ shinyServer(function(input, output, clientData, session) {
   output$postopkiPita <- renderPlot({
     plotData <- tbl.zlocin %>% group_by(status) %>%
       summarise(count = count(status)) %>% data.frame()
-    ggplot(plotData, aes(x = factor(1), y = count, fill = status)) +
-      geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") +
-      xlab("") + ylab("")
-    #dokaj nepregledno. alternativa?
+    ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
+      geom_bar(colour="black", stat = "identity", width = 1) + 
+      #coord_polar(theta = "y") +
+      xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
   })
   
   output$graph <- renderPlot({
@@ -93,17 +99,17 @@ shinyServer(function(input, output, clientData, session) {
     
     if (input$checkbox_z && input$checkbox_p){
       data1 <- tbl.zlocin %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
-      data2 <- tbl.preiskava %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
-      maksi <- max(data1[["count"]]) + max(data2[["count"]]) 
+      data2 <- tbl.postopek %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      maksi <- max(data1[["count"]]) + max(data2[["count"]]) + 50
       data <- rbind(data1, data2)
     }
     else if (input$checkbox_z){
       data <- tbl.zlocin %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
-      maksi <- max(data[["count"]]) 
+      maksi <- max(data[["count"]]) + 50
     }
     else if (input$checkbox_p){
       data <- tbl.preiskava %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
-      maksi <- max(data[["count"]]) 
+      maksi <- max(data[["count"]]) + 50
     }
     
     if (is.data.frame(data) == FALSE) {
