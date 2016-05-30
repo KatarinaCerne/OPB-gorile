@@ -74,7 +74,7 @@ def uvozi_lsoa(csv_datoteka):
             cur.execute('''INSERT INTO lsoa VALUES (%s, %s)''',
                            [koda, ime])
 
-def uvozi_preiskava(csv_datoteka):
+def uvozi_preiskava(csv_datoteka, mesto):
     i = True
     with open(csv_datoteka, 'r') as csvfile:
         for row in csvfile:
@@ -102,9 +102,9 @@ def uvozi_preiskava(csv_datoteka):
             uradnarasa = row[9]
             predmetpreiskave = row[11]
             stanje = row[12]
-            cur.execute('''INSERT INTO Preiskava (tip, dan, mesec, gsirina, gdolzina, spol, starostmin, starostmax, rasa, uradnarasa, predmetpreiskave, stanje)
-                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''',
-                           [tip, dan, mesec, gsirina, gdolzina, spol, starostmin, starostmax, rasa, uradnarasa, predmetpreiskave, stanje])
+            cur.execute('''INSERT INTO Preiskava (tip, dan, mesec, ukrepal, gsirina, gdolzina, spol, starostmin, starostmax, rasa, uradnarasa, predmetpreiskave, stanje)
+                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''',
+                           [tip, dan, mesec, mesto, gsirina, gdolzina, spol, starostmin, starostmax, rasa, uradnarasa, predmetpreiskave, stanje])
 
 def smin(starost):
     if 'over' in starost:
@@ -162,19 +162,30 @@ conn.commit()
 ##uvozi_street('ClevelandPolice/2015-11/2015-11-cleveland-street.csv')
 ##uvozi_street('ClevelandPolice/2015-12/2015-12-cleveland-street.csv')
 
-uvozi_postopek('ClevelandPolice/2015-01/2015-01-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-02/2015-02-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-03/2015-03-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-04/2015-04-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-05/2015-05-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-06/2015-06-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-07/2015-07-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-08/2015-08-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-09/2015-09-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-10/2015-10-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-11/2015-11-cleveland-outcomes.csv')
-uvozi_postopek('ClevelandPolice/2015-12/2015-12-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-01/2015-01-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-02/2015-02-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-03/2015-03-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-04/2015-04-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-05/2015-05-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-06/2015-06-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-07/2015-07-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-08/2015-08-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-09/2015-09-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-10/2015-10-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-11/2015-11-cleveland-outcomes.csv')
+##uvozi_postopek('ClevelandPolice/2015-12/2015-12-cleveland-outcomes.csv')
 
+##uvozi_preiskava('ClevelandPolice/2015-11/2015-01-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-11/2015-02-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-03/2015-03-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-04/2015-04-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-05/2015-05-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-06/2015-06-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-07/2015-07-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-08/2015-08-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-09/2015-09-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-10/2015-10-cleveland-stop-and-search.csv', 'Cleveland Police')
+##uvozi_preiskava('ClevelandPolice/2015-12/2015-12-cleveland-stop-and-search.csv', 'Cleveland Police')
 
 ##uvozi_street('2015-01/2015-01-city-of-london-street.csv')
 ##uvozi_street('2015-02/2015-02-city-of-london-street.csv')
@@ -202,16 +213,16 @@ uvozi_postopek('ClevelandPolice/2015-12/2015-12-cleveland-outcomes.csv')
 ##uvozi_lsoa('2015-11/2015-11-city-of-london-street.csv')
 ##uvozi_lsoa('2015-12/2015-12-city-of-london-street.csv')
 
-##uvozi_preiskava('2015-03/2015-03-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-04/2015-04-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-05/2015-05-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-06/2015-06-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-07/2015-07-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-08/2015-08-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-09/2015-09-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-10/2015-10-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-11/2015-11-city-of-london-stop-and-search.csv')
-##uvozi_preiskava('2015-12/2015-12-city-of-london-stop-and-search.csv')
+##uvozi_preiskava('CityOfLondonPolice/2015-03/2015-03-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-04/2015-04-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-05/2015-05-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-06/2015-06-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-07/2015-07-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-08/2015-08-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-09/2015-09-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-10/2015-10-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-11/2015-11-city-of-london-stop-and-search.csv', 'City of London Police')
+##uvozi_preiskava('CityOfLondonPolice/2015-12/2015-12-city-of-london-stop-and-search.csv', 'City of London Police')
 
 ##uvozi_postopek('2015-01/2015-01-city-of-london-outcomes.csv')
 ##uvozi_postopek('2015-02/2015-02-city-of-london-outcomes.csv')

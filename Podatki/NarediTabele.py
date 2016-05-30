@@ -45,6 +45,7 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 ##                                       tip text,
 ##                                       dan int,
 ##                                       mesec int,
+##                                       ukrepal text,
 ##                                       gSirina decimal,
 ##                                       gDolzina decimal,
 ##                                       spol text,
