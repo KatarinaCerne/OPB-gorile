@@ -17,7 +17,7 @@ shinyServer(function(input, output, clientData, session) {
   tbl.postopek <- tbl(conn, "postopek")
   tbl.preiskava <- tbl(conn, "preiskava")
   #tbl.lokacija <- tbl(conn, "lokacija") tole zakomentiramo, ni v bazi
-  zbl.lsoa <- tbl(conn, "lsoa")
+  tbl.lsoa <- tbl(conn, "lsoa")
   ttt <- tbl.zlocin %>% select(status) %>% group_by(status)%>%data.frame()
   
   
@@ -88,24 +88,37 @@ shinyServer(function(input, output, clientData, session) {
     #dokaj nepregledno. alternativa?
   })
   
-  output$line_graph <- renderPlot({
+  output$graph <- renderPlot({
     city <- paste(input$city, "Police", sep = " ")
+    
     if (input$checkbox_z && input$checkbox_p){
       data1 <- tbl.zlocin %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       data2 <- tbl.postopek %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      maksi <- max(data1[["count"]]) + max(data2[["count"]]) + 50
       data <- rbind(data1, data2)
     }
     else if (input$checkbox_z){
       data <- tbl.zlocin %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      maksi <- max(data[["count"]]) + 50
     }
     else if (input$checkbox_p){
-      data <- tbl.postopek %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.preiskava %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      maksi <- max(data[["count"]]) + 50
     }
+    
+    if (is.data.frame(data) == FALSE) {
+      mesec <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+      count <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+      data <- data.frame(mesec, count)
+      maksi <- 100 
+    } 
+    
     ggplot(data=data, aes(x=mesec, y=count, fill=mesec)) + 
       geom_bar(colour="black", width=.8, stat="identity") + 
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
                        labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) +
-      theme(legend.position='none')
+      theme(legend.position = 'none') +
+      ylim(0, maksi) 
   })
   
   

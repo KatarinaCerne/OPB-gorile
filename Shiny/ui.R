@@ -53,7 +53,8 @@ shinyUI(navbarPage("Zlocini UK",
                                            checkboxInput("checkbox_p", 
                                                          label = "Postopek", value = TRUE)
                                            ),
-                              mainPanel(plotOutput("line_graph"))
+                              mainPanel(plotOutput("graph"),
+                                        textOutput("text_graph"))
                             )
                             
                    )
