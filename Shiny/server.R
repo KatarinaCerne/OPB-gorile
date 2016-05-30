@@ -5,7 +5,8 @@ library(ggplot2)
 library(plotrix)
 #library(ggmap)
 
-source("auth.R")
+#source("auth.R")
+source("auth_public.R")
 
 shinyServer(function(input, output, clientData, session) {
   # Vzpostavimo povezavo
