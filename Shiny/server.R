@@ -131,12 +131,12 @@ shinyServer(function(input, output) {
     data <- tbl.zlocin %>% data.frame()
     gc <- geocode(input$mesto_zemljevid)
     map <- get_map(gc, source = "google", zoom = input$zoom, maptype = input$tip_zemljevid)
-    ggmap(map) +
+    ggmap(map, fullpage = TRUE) +
       geom_point(
         aes(x = gsirina, y = gdolzina),
         data = data, colour = "red", size = 3
       )
-  })
+      })
 
   
 })
