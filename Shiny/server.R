@@ -129,21 +129,27 @@ shinyServer(function(input, output, clientData, session) {
   
   
   # Spremljamo, kako se spreminja zoom
-  observe({
-    z <- input$zzz
-    updateSliderInput(session, "zzz", value = z)
+  #observe({
+  #  z <- input$zzz
+  #  updateSliderInput(session, "zzz", value = z)
+  #})
+  
+  sliderValue <- reactive({
+    data.frame(
+      Parameter=c("Zoom"), 
+      Vrednost = as.character(c(input$zzz)),
+      stringsAsFactors = FALSE)
   })
   
-  # Zemljevid, trenutno samo za City od London
+  output$values <- renderTable({
+    sliderValue()
+  })
+  
+  # Zemljevid
   output$map <- renderPlot({
     crimes <- tbl.zlocin %>% data.frame()
     zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = 'hybrid')
     zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
-  })
-  
-  # Tekst pod zemljevidom, samo testno
-  output$text1 <- renderText({ 
-    paste("Izbrali ste mesto", input$mesto_zemljevid, "Zoom:", input$zzz)
   })
   
   

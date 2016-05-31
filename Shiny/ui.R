@@ -4,14 +4,13 @@ shinyUI(navbarPage("Zlocini UK",
                    tabPanel("Domov",
                             mainPanel("Nahajate se v aplikaciji Zlocini UK, kjer so zbrani osnovni podatki o zlocinih v UK.",
                                       tags$br(),
-                                      "V naslednjem zavihku je tabela zlocinov, vendar moras malcek pocakati, da se nalozi.")
+                                      "V naslednjih zavihkih se nahajajo razno razne analize, prikazi in grafi.")
                    ),
                    tabPanel("Zlocini",
                             #sidebarLayout(
                               mainPanel(plotOutput("postopkiPita"))
                               #,sidebarPanel(tableOutput("zlocini"))
                             #)
-                      
                    ),
                    tabPanel("Preiskave",
                             sidebarLayout(
@@ -27,19 +26,17 @@ shinyUI(navbarPage("Zlocini UK",
                    tabPanel("Zemljevid",
                             sidebarLayout(
                               sidebarPanel(
-                                helpText("Na desnem zemljevidu so markirani zlocini, ki so se zgodili v City of London."),
+                                helpText("Na desnem zemljevidu so markirani zlocini, ki so se zgodili v izbranem policijskem okrozju."),
                                 selectInput("mesto_zemljevid", 
                                             label = "Izberi mesto prikaza",
-                                            choices = c("City Of London", "Ljubljana",
-                                                        "Liverpool"),
+                                            choices = list("City Of London"="City of London", "Cleveland"="Middlesbrough"),
                                             selected = "City of London"),
-                                
-                                sliderInput("zzz", 
+                                sliderInput("zzz",
                                             label = "Zoomiranje zemljevida:",
-                                            min = 0, max = 100, value = 14, step = 1)
+                                            min = 0, max = 100, value = 14, step = 1),
+                                tableOutput("values")
                                            ),
-                              mainPanel(plotOutput("map"),
-                                        textOutput("text1"))
+                              mainPanel(plotOutput("map"))
                             )
                    ),
                    tabPanel("Mesecno st. ukrepanj",
@@ -56,8 +53,5 @@ shinyUI(navbarPage("Zlocini UK",
                               mainPanel(plotOutput("graph"),
                                         textOutput("text_graph"))
                             )
-                            
                    )
-                   
-)
-)
+))
