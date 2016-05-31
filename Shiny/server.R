@@ -99,7 +99,7 @@ shinyServer(function(input, output, clientData, session) {
     
     if (input$checkbox_z && input$checkbox_p){
       data1 <- tbl.zlocin %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
-      data2 <- tbl.postopek %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data2 <- tbl.preiskava %>% filter(ukrepal == city) %>% group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data1[["count"]]) + max(data2[["count"]]) + 50
       data <- rbind(data1, data2)
     }
