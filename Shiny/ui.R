@@ -35,7 +35,7 @@ shinyUI(navbarPage("Zlocini UK",
                                             label = "Izberi tip prikaza zemljevida",
                                             choices = c('satellite', 'hybrid', 'terrain', 'toner', 'watercolor'),
                                             selected = 'satellite'),
-                                sliderInput("zzz",
+                                sliderInput("zoom",
                                             label = "Zoomiranje zemljevida",
                                             min = 0, max = 100, value = 14, step = 1),
                                 tableOutput("values")

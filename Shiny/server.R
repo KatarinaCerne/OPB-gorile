@@ -136,7 +136,7 @@ shinyServer(function(input, output, session) {
   sliderValue <- reactive({
     data.frame(
       Parameter=c("Zoom"), 
-      Vrednost = as.character(c(input$zzz)),
+      Vrednost = as.character(c(input$zoom)),
       stringsAsFactors = FALSE)
   })
   
@@ -145,14 +145,17 @@ shinyServer(function(input, output, session) {
   })
   
   # Zemljevid
-  observe({
-    z <- input$zzz
-    updateSliderInput(session, "zzz", value = z)
-    output$map <- renderPlot({
-      crimes <- tbl.zlocin %>% data.frame()
-      zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = 'satellite')
-      zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
-    })
+
+  output$map <- renderPlot({
+    data <- tbl.zlocin %>% data.frame()
+    gc <- geocode(input$mesto_zemljevid)
+    map <- get_map(gc, source = "google", zoom = input$zoom, maptype = input$tip_zemljevid)
+    ggmap(map) +
+      geom_point(
+        aes(x = gsirina, y = gdolzina),
+        data = data, colour = "red", size = 3
+      )
   })
+
   
 })
