@@ -9,7 +9,7 @@ library(RColorBrewer)
 #source("auth.R")
 source("auth_public.R")
 
-shinyServer(function(input, output, session) {
+shinyServer(function(input, output) {
   # Vzpostavimo povezavo
   conn <- src_postgres(dbname = db, host = host,
                        user = user, password = password)
@@ -126,26 +126,7 @@ shinyServer(function(input, output, session) {
       ylim(0, maksi) 
   })
   
-  
-  # Spremljamo, kako se spreminja zoom
-  #observe({
-  #  z <- input$zzz
-  #  updateSliderInput(session, "zzz", value = z)
-  #})
-  
-  sliderValue <- reactive({
-    data.frame(
-      Parameter=c("Zoom"), 
-      Vrednost = as.character(c(input$zoom)),
-      stringsAsFactors = FALSE)
-  })
-  
-  output$values <- renderTable({
-    sliderValue()
-  })
-  
   # Zemljevid
-
   output$map <- renderPlot({
     data <- tbl.zlocin %>% data.frame()
     gc <- geocode(input$mesto_zemljevid)

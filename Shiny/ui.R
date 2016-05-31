@@ -37,7 +37,7 @@ shinyUI(navbarPage("Zlocini UK",
                                             selected = 'satellite'),
                                 sliderInput("zoom",
                                             label = "Zoomiranje zemljevida",
-                                            min = 0, max = 100, value = 14, step = 1),
+                                            min = 5, max = 20, value = 14, step = 1),
                                 tableOutput("values")
                                            ),
                               mainPanel(plotOutput("map"))
