@@ -17,7 +17,6 @@ shinyServer(function(input, output, session) {
   tbl.zlocin <- tbl(conn, "zlocin")
   tbl.postopek <- tbl(conn, "postopek")
   tbl.preiskava <- tbl(conn, "preiskava")
-  #tbl.lokacija <- tbl(conn, "lokacija") tole zakomentiramo, ni v bazi
   tbl.lsoa <- tbl(conn, "lsoa")
   ttt <- tbl.zlocin %>% select(status) %>% group_by(status)%>%data.frame()
   
@@ -27,7 +26,7 @@ shinyServer(function(input, output, session) {
     #t2<-unlist(t)%>%table()
     #
   })
-
+  
   
   output$preiskave <- renderPlot({
     pr_podatki <- paste(input$podatek)
@@ -58,8 +57,8 @@ shinyServer(function(input, output, session) {
         geom_bar(stat = "identity", width = 1) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
       
-        #theme(axis.text.x = element_text(angle = 90, hjust = 1),legend.position = 'none')
-        
+      #theme(axis.text.x = element_text(angle = 90, hjust = 1),legend.position = 'none')
+      
     }
     else if (pr_podatki == "uradna rasa"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
@@ -81,7 +80,7 @@ shinyServer(function(input, output, session) {
         #coord_polar(theta = "y") + 
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
-    #manjka še za tip
+    #manjka ťe za tip
   })
   
   
@@ -151,11 +150,9 @@ shinyServer(function(input, output, session) {
     updateSliderInput(session, "zzz", value = z)
     output$map <- renderPlot({
       crimes <- tbl.zlocin %>% data.frame()
-      zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = "satellite")
+      zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = 'satellite')
       zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
     })
   })
-
-  
   
 })
