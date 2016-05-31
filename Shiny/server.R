@@ -9,7 +9,7 @@ library(RColorBrewer)
 #source("auth.R")
 source("auth_public.R")
 
-shinyServer(function(input, output, clientData, session) {
+shinyServer(function(input, output, session) {
   # Vzpostavimo povezavo
   conn <- src_postgres(dbname = db, host = host,
                        user = user, password = password)
@@ -151,7 +151,7 @@ shinyServer(function(input, output, clientData, session) {
     updateSliderInput(session, "zzz", value = z)
     output$map <- renderPlot({
       crimes <- tbl.zlocin %>% data.frame()
-      zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = 'satellite')
+      zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = "satellite")
       zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
     })
   })
