@@ -146,11 +146,16 @@ shinyServer(function(input, output, clientData, session) {
   })
   
   # Zemljevid
-  output$map <- renderPlot({
-    crimes <- tbl.zlocin %>% data.frame()
-    zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = 'hybrid')
-    zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
+  observe({
+    z <- input$zzz
+    updateSliderInput(session, "zzz", value = z)
+    output$map <- renderPlot({
+      crimes <- tbl.zlocin %>% data.frame()
+      zemljevid <- qmap(input$mesto_zemljevid, zoom = 14, maptype = 'satellite')
+      zemljevid + geom_point(data = crimes, aes(x = gsirina, y = gdolzina), color="red", size=2, alpha=0.5)
+    })
   })
+
   
   
 })
