@@ -106,13 +106,13 @@ shinyServer(function(input, output) {
       data <- tbl.nova %>%filter(ukrepal=="Cleveland Police")%>%group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
     }
-    
-    if (is.data.frame(data) == FALSE) {
+    else if (is.data.frame(data) == FALSE) {
       mesec <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
       count <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
       data <- data.frame(mesec, count)
       maksi <- 100 
-    } 
+      ukrepal <- "Izberite policijsko postajo"
+    }
     
     ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal))+geom_bar( stat="identity", position="dodge") +
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
