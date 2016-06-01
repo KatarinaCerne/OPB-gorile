@@ -80,25 +80,30 @@ shinyServer(function(input, output) {
       geom_bar(colour="black", stat = "identity", width = 1) + 
       xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     
-    %data1 <- tbl.zlocin %>% group_by(ukrepal,mesec)%>% summarise(count = count(mesec)) %>% data.frame()%>%View
+    #data1 <- tbl.zlocin %>% group_by(ukrepal,mesec)%>% summarise(count = count(mesec)) %>% data.frame()%>%View
     #data <- tbl.zlocin %>%filter(ukrepal=="City of London Police")%>%group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()%>%View
   })
   
   output$graph <- renderPlot({
-    #city <- paste(input$city, "Police", sep = " ")
-    
+    vrstap=paste(input$vrstapod,sep=" ")
+    if (vrstap=="Zlocin"){
+      tbl.nova<-tbl.zlocin
+    }
+    else if (vrstap=="Preiskava"){
+      tbl.nova<-tbl.preiskava
+    }
     
     if (input$checkbox_z && input$checkbox_p){
-      data <- tbl.zlocin%>%group_by(ukrepal,mesec)%>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.nova%>%group_by(ukrepal,mesec)%>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
       
     }
     else if (input$checkbox_z){
-      data <- tbl.zlocin %>%filter(ukrepal=="City of London Police")%>%group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.nova %>%filter(ukrepal=="City of London Police")%>%group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
     }
     else if (input$checkbox_p){
-      data <- tbl.zlocin %>%filter(ukrepal=="Cleveland Police")%>%group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.nova %>%filter(ukrepal=="Cleveland Police")%>%group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
     }
     
@@ -111,7 +116,7 @@ shinyServer(function(input, output) {
     
     ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal))+geom_bar( stat="identity", position="dodge") +
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
-                       labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) +
+                       labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec"))+ 
       ylim(0, maksi) 
   })
   

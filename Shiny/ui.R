@@ -45,7 +45,7 @@ shinyUI(navbarPage("Zlocini UK",
                    ),
                    tabPanel("Mesecno st. ukrepanj",
                             sidebarLayout(
-                              sidebarPanel(selectInput("vrsta-p",
+                              sidebarPanel(selectInput("vrstapod",
                                                        label = "Izberi vrsto podatka",
                                                        choices = c("Zlocin", "Preiskava"),
                                                        selected = "Zlocin"),
