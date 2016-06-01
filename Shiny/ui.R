@@ -45,14 +45,14 @@ shinyUI(navbarPage("Zlocini UK",
                    ),
                    tabPanel("Mesecno st. ukrepanj",
                             sidebarLayout(
-                              sidebarPanel(selectInput("city",
-                                                       label = "Izberi mesto prikaza",
-                                                       choices = c("City of London", "Cleveland"),
-                                                       selected = "City of London"),
+                              sidebarPanel(selectInput("vrsta-p",
+                                                       label = "Izberi vrsto podatka",
+                                                       choices = c("Zlocin", "Preiskava"),
+                                                       selected = "Zlocin"),
                                            checkboxInput("checkbox_z", 
-                                                         label = "Zlocin", value = TRUE),
+                                                         label = "City of London", value = TRUE),
                                            checkboxInput("checkbox_p", 
-                                                         label = "Preiskava", value = TRUE)
+                                                         label = "Cleveland", value = TRUE)
                                            ),
                               mainPanel(plotOutput("graph"),
                                         textOutput("text_graph"))
