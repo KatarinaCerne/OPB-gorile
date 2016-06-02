@@ -73,12 +73,16 @@ shinyServer(function(input, output) {
   })
   
   
-  output$postopkiPita <- renderPlot({
-    plotData <- tbl.zlocin %>% group_by(status) %>%
-      summarise(count = count(status)) %>% data.frame()
-    ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
-      geom_bar(colour="black", stat = "identity", width = 1) + 
-      xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
+  output$zlocini_graph <- renderPlot({
+    postopek <-  tbl.postopek %>% filter(stanje=="Investigation complete; no suspect identified") %>% data.frame()
+    zlocin <- tbl.zlocin %>% select(idp) %>% filter(is.null(idp) == FALSE) %>% data.frame()
+    data <-  inner_join(postopek, zlocin, by = "idp") %>% summarise(count = count(mesec)) %>% data.frame()
+    
+    #plotData <- tbl.zlocin %>% group_by(status) %>%
+    #  summarise(count = count(status)) %>% data.frame()
+    #ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
+    #  geom_bar(colour="black", stat = "identity", width = 1) + 
+    #  xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     
     #data1 <- tbl.zlocin %>% group_by(ukrepal,mesec)%>% summarise(count = count(mesec)) %>% data.frame()%>%View
     #data <- tbl.zlocin %>%filter(ukrepal=="City of London Police")%>%group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()%>%View
@@ -109,9 +113,9 @@ shinyServer(function(input, output) {
     else if (is.data.frame(data) == FALSE) {
       mesec <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
       count <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-      data <- data.frame(mesec, count)
       maksi <- 100 
       ukrepal <- "Izberite policijsko postajo"
+      data <- data.frame(mesec, count, ukrepal)
     }
     
     ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal))+geom_bar( stat="identity", position="dodge") +
@@ -123,7 +127,7 @@ shinyServer(function(input, output) {
   # Zemljevid
   output$map <- renderPlot({
     data <- tbl.zlocin %>% data.frame()
-    gc <- geocode(input$mesto_zemljevid)
+    gc <- input$mesto_zemljevid
     map <- get_map(gc, source = "google", zoom = input$zoom, maptype = input$tip_zemljevid)
     ggmap(map, fullpage = TRUE) +
       geom_point(

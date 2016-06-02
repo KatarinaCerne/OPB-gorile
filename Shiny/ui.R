@@ -8,9 +8,7 @@ shinyUI(navbarPage("Zlocini UK",
                    ),
                    tabPanel("Zlocini",
                             #sidebarLayout(
-                              mainPanel(plotOutput("postopkiPita"))
-                              #,sidebarPanel(tableOutput("zlocini"))
-                            #)
+                              mainPanel(plotOutput("zlocini_graph"))
                    ),
                    tabPanel("Preiskave",
                             sidebarLayout(
