@@ -109,9 +109,9 @@ shinyServer(function(input, output) {
     else if (is.data.frame(data) == FALSE) {
       mesec <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
       count <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-      data <- data.frame(mesec, count)
       maksi <- 100 
       ukrepal <- "Izberite policijsko postajo"
+      data <- data.frame(mesec, count, ukrepal)
     }
     
     ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal))+geom_bar( stat="identity", position="dodge") +
@@ -123,6 +123,7 @@ shinyServer(function(input, output) {
   # Zemljevid
   output$map <- renderPlot({
     data <- tbl.zlocin %>% data.frame()
+    data2 <- tbl.preiskava %>% data.frame()
     gc <- input$mesto_zemljevid
     map <- get_map(gc, source = "google", zoom = input$zoom, maptype = input$tip_zemljevid)
     ggmap(map, fullpage = TRUE) +
@@ -133,7 +134,16 @@ shinyServer(function(input, output) {
       })
 
   output$map2 <- renderPlot({
-    
+    gc <- input$mesto_zemljevid2
+    zoom <- input$zoom2
+    map2 <- qmap(gc, source = "stamen", zoom = zoom, maptype = "toner", darken = c(.3,"#BBBBBB"))
+    data <- tbl.zlocin %>% data.frame()
+    map2 +
+      geom_point(
+        data = data,
+        aes(x = gsirina, y = gdolzina),
+        colour = "dark green", alpha =.03, size = 2
+      )
   })
   
 })

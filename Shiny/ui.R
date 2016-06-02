@@ -37,10 +37,24 @@ shinyUI(navbarPage("Zlocini UK",
                                             selected = 'satellite'),
                                 sliderInput("zoom",
                                             label = "Zoomiranje zemljevida",
-                                            min = 5, max = 20, value = 14, step = 1),
-                                tableOutput("values")
+                                            min = 5, max = 20, value = 14, step = 1)
                                            ),
                               mainPanel(plotOutput("map"))
+                            )
+                   ),
+                   tabPanel("Zemljevid2",
+                            sidebarLayout(
+                              sidebarPanel(
+                                helpText("Prikazani zemljevid ima bolj osencene predele, kjer se je zgodilo vec zlocinov."),
+                                selectInput("mesto_zemljevid2", 
+                                            label = "Izberi mesto prikaza",
+                                            choices = list("City Of London"="City of London", "Cleveland"="Middlesbrough"),
+                                            selected = "City of London"),
+                                sliderInput("zoom2",
+                                            label = "Zoomiranje zemljevida",
+                                            min = 5, max = 20, value = 11, step = 1)
+                              ),
+                              mainPanel(plotOutput("map2"))
                             )
                    ),
                    tabPanel("Mesecno st. ukrepanj",
