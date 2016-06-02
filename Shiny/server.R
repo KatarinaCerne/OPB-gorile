@@ -127,6 +127,7 @@ shinyServer(function(input, output) {
   # Zemljevid
   output$map <- renderPlot({
     data <- tbl.zlocin %>% data.frame()
+    data2 <- tbl.preiskava %>% data.frame()
     gc <- input$mesto_zemljevid
     map <- get_map(gc, source = "google", zoom = input$zoom, maptype = input$tip_zemljevid)
     ggmap(map, fullpage = TRUE) +
@@ -137,7 +138,16 @@ shinyServer(function(input, output) {
       })
 
   output$map2 <- renderPlot({
-    
+    gc <- input$mesto_zemljevid2
+    zoom <- input$zoom2
+    map2 <- qmap(gc, source = "stamen", zoom = zoom, maptype = "toner", darken = c(.3,"#BBBBBB"))
+    data <- tbl.zlocin %>% data.frame()
+    map2 +
+      geom_point(
+        data = data,
+        aes(x = gsirina, y = gdolzina),
+        colour = "dark green", alpha =.03, size = 2
+      )
   })
   
 })
