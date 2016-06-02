@@ -123,7 +123,7 @@ shinyServer(function(input, output) {
   # Zemljevid
   output$map <- renderPlot({
     data <- tbl.zlocin %>% data.frame()
-    gc <- geocode(input$mesto_zemljevid)
+    gc <- input$mesto_zemljevid
     map <- get_map(gc, source = "google", zoom = input$zoom, maptype = input$tip_zemljevid)
     ggmap(map, fullpage = TRUE) +
       geom_point(
@@ -132,5 +132,8 @@ shinyServer(function(input, output) {
       )
       })
 
+  output$map2 <- renderPlot({
+    
+  })
   
 })
