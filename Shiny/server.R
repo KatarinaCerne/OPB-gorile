@@ -136,5 +136,8 @@ shinyServer(function(input, output) {
       )
       })
 
+  output$map2 <- renderPlot({
+    
+  })
   
 })
