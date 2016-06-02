@@ -17,7 +17,11 @@ shinyUI(navbarPage("Zlocini UK",
                                                        label = "Izberi vrsto podatkov",
                                                        choices = c("spol", "starost", "rasa","uradna rasa", "predmet preiskave","stanje","tip"),
                                                        selected = "spol")
-                              
+                                           #checkboxGroupInput("checkGroup", label = h3("Filtriraj"), 
+                                           #                  choices = list("spol" = "spol", "starost" = "starost", "uradna rasa" = "uradnarasa", "tip" = "tip"),
+                                           #                  selected = "spol"),
+                                           #hr(),
+                                           #fluidRow(column(3, verbatimTextOutput("value")))
                             )
                    )
                    ),
