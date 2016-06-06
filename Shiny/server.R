@@ -161,7 +161,7 @@ shinyServer(function(input, output) {
     }
     else if (gc == "Middlesbrough"){
       map2 <- qmap(gc, source = "stamen", zoom = 11, maptype = "toner", darken = c(.3,"#BBBBBB"))
-      size <-2
+      size <- 2
     }
     data <- tbl.zlocin %>% data.frame()
     map2 +
@@ -170,6 +170,19 @@ shinyServer(function(input, output) {
         aes(x = gsirina, y = gdolzina),
         colour = "dark green", alpha =.03, size = size
       )
+  })
+  
+  output$map3 <- renderPlot({
+    data <- tbl.zlocin %>% filter(ukrepal=="Cleveland Police") %>% group_by(ukrepal, lsoa) %>% data.frame()
+    map3 <- ggplot() + ggtitle("Porazdelitev zlocinov -- Cleveland Police") + xlab("Geografska sirina") + ylab("Geografska dolzina") + geom_boxplot() + theme(
+      plot.title = element_text(color = "red", size = 18, face = "bold"),
+      axis.title.x = element_text(color = "#08298A", size = 14, face = "bold"),
+      axis.title.y = element_text(color = "#08298A", size = 14, face = "bold")
+    )
+    map3 +
+      geom_point(data = data, 
+                 aes(x = gsirina, y = gdolzina), 
+                 color="#08298A", fill="#FFFF3309", size=1.3)
   })
   
 })
