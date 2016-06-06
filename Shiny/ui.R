@@ -51,10 +51,10 @@ shinyUI(navbarPage("Zlocini UK",
                                 selectInput("mesto_zemljevid2", 
                                             label = "Izberi mesto prikaza",
                                             choices = list("City Of London"="City of London", "Cleveland"="Middlesbrough"),
-                                            selected = "City of London"),
-                                sliderInput("zoom2",
-                                            label = "Zoomiranje zemljevida",
-                                            min = 5, max = 20, value = 11, step = 1)
+                                            selected = "City of London")
+                                #sliderInput("zoom2",
+                                #            label = "Zoomiranje zemljevida",
+                                #            min = 5, max = 20, value = 11, step = 1)
                               ),
                               mainPanel(plotOutput("map2"))
                             )

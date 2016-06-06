@@ -20,11 +20,6 @@ shinyServer(function(input, output) {
   tbl.lsoa <- tbl(conn, "lsoa")
   
   
-  output$zlocini <- renderTable({
-    t <- tbl.zlocin %>% select(status) %>% group_by(status) %>% summarise(stevilo=n())%>% select(stevilo)%>%data.frame()
-  })
-  
-  
   output$preiskave <- renderPlot({
     pr_podatki <- paste(input$podatek)
     #bi se dalo to kako bolj elegantno?
@@ -143,6 +138,7 @@ shinyServer(function(input, output) {
       ylim(0, maksi) 
   })
   
+  
   # Zemljevid
   output$map <- renderPlot({
     data <- tbl.zlocin %>% data.frame()
@@ -156,16 +152,23 @@ shinyServer(function(input, output) {
       )
       })
 
+  # Zemljevid2
   output$map2 <- renderPlot({
     gc <- input$mesto_zemljevid2
-    zoom <- input$zoom2
-    map2 <- qmap(gc, source = "stamen", zoom = zoom, maptype = "toner", darken = c(.3,"#BBBBBB"))
+    if (gc == "City of London"){
+      map2 <- qmap(gc, source = "stamen", zoom = 14, maptype = "toner", darken = c(.3,"#BBBBBB"))
+      size <- 5
+    }
+    else if (gc == "Middlesbrough"){
+      map2 <- qmap(gc, source = "stamen", zoom = 11, maptype = "toner", darken = c(.3,"#BBBBBB"))
+      size <-2
+    }
     data <- tbl.zlocin %>% data.frame()
     map2 +
       geom_point(
         data = data,
         aes(x = gsirina, y = gdolzina),
-        colour = "dark green", alpha =.03, size = 2
+        colour = "dark green", alpha =.03, size = size
       )
   })
   
