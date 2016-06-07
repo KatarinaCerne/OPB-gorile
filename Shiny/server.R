@@ -100,7 +100,7 @@ shinyServer(function(input, output) {
     zlocin <- tbl.zlocin %>% data.frame()
     lsoa <- tbl.lsoa %>% data.frame()
     #data <- merge(x = zlocin, y = lsoa, by = NULL) %>% group_by(lsoa) %>% summarise(count = count(lsoa)) %>% data.frame() %>% table()
-    sqldf("SELECT COUNT(*) FROM zlocin") %>% table()
+    sqldf("SELECT COUNT(*) FROM zlocin", drv="SQLite") %>% table()
     
     #plotData <- tbl.zlocin %>% group_by(status) %>%
     #  summarise(count = count(status)) %>% data.frame()
@@ -142,7 +142,8 @@ shinyServer(function(input, output) {
       data <- data.frame(mesec, count, ukrepal)
     }
     
-    ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal))+geom_bar( stat="identity", position="dodge") +
+    ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal), size = 20) + 
+      geom_bar( stat="identity", position="dodge") +
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
                        labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) + 
       ylim(0, maksi) + 
