@@ -104,7 +104,7 @@ shinyServer(function(input, output) {
   
   
   output$zlocini_graph <- renderPlot({
-    data_join[1:50] %>% table()
+    data_join %>% table()
   })
   
   output$graph <- renderPlot({
