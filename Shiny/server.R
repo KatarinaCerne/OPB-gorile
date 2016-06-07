@@ -16,15 +16,15 @@ shinyServer(function(input, output) {
                        user = user, password = password)
   # Pripravimo tabele
   tbl.zlocin <- tbl(conn, "zlocin")
-  tbl.postopek <- tbl(conn, "postopek")
+  #tbl.postopek <- tbl(conn, "postopek")
   tbl.preiskava <- tbl(conn, "preiskava")
   tbl.lsoa <- tbl(conn, "lsoa")
   
   
-  postopek_join <-  tbl.postopek %>% data.frame()
+  #postopek_join <-  tbl.postopek %>% data.frame()
     #filter(stanje=="Investigation complete; no suspect identified") %>% data.frame()%>%View
-  zlocin_join <- tbl.zlocin %>% filter(is.null(idp) == FALSE) %>% data.frame()
-  data_join <-  inner_join(postopek_join, zlocin_join, by = "idp") %>% data.frame()
+  #zlocin_join <- tbl.zlocin %>% filter(is.null(idp) == FALSE) %>% data.frame()
+  #data_join <-  inner_join(postopek_join, zlocin_join, by = "idp") %>% data.frame()
     #summarise(count = count(mesec)) %>% data.frame()%>%View
   
   
@@ -104,7 +104,11 @@ shinyServer(function(input, output) {
   
   
   output$zlocini_graph <- renderPlot({
-    data_join %>% table()
+    plotData <- tbl.zlocin %>% group_by(status) %>%
+      summarise(count = count(status)) %>% data.frame()
+    ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
+      geom_bar(colour="black", stat = "identity", width = 1) + 
+      xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
   })
   
   output$graph <- renderPlot({
