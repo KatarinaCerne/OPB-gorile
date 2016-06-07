@@ -5,6 +5,7 @@ library(ggplot2)
 library(plotrix)
 library(ggmap)
 library(RColorBrewer)
+library(sqldf)
 
 #source("auth.R")
 source("auth_public.R")
@@ -103,9 +104,10 @@ shinyServer(function(input, output) {
   
   
   output$zlocini_graph <- renderPlot({
-    postopek <-  tbl.postopek %>% filter(stanje=="Investigation complete; no suspect identified") %>% data.frame()
-    zlocin <- tbl.zlocin %>% select(idp) %>% filter(is.null(idp) == FALSE) %>% data.frame()
-    data <-  inner_join(postopek, zlocin, by = "idp") %>% summarise(count = count(mesec)) %>% data.frame()
+    zlocin <- tbl.zlocin %>% data.frame()
+    lsoa <- tbl.lsoa %>% data.frame()
+    #data <- merge(x = zlocin, y = lsoa, by = NULL) %>% group_by(lsoa) %>% summarise(count = count(lsoa)) %>% data.frame() %>% table()
+    sqldf("SELECT COUNT(*) FROM zlocin", drv="SQLite") %>% table()
     
     #plotData <- tbl.zlocin %>% group_by(status) %>%
     #  summarise(count = count(status)) %>% data.frame()
@@ -120,23 +122,23 @@ shinyServer(function(input, output) {
   output$graph <- renderPlot({
     vrstap=paste(input$vrstapod,sep=" ")
     if (vrstap=="crime"){
-      tbl.nova<-tbl.zlocin
+      tbl.nova <- tbl.zlocin
     }
     else if (vrstap=="stop & search"){
-      tbl.nova<-tbl.preiskava
+      tbl.nova <- tbl.preiskava
     }
     
     if (input$checkbox_z && input$checkbox_p){
-      data <- tbl.nova%>%group_by(ukrepal,mesec)%>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.nova %>% group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
       
     }
     else if (input$checkbox_z){
-      data <- tbl.nova %>%filter(ukrepal=="City of London Police")%>%group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.nova %>% filter(ukrepal=="City of London Police") %>% group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
     }
     else if (input$checkbox_p){
-      data <- tbl.nova %>%filter(ukrepal=="Cleveland Police")%>%group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
+      data <- tbl.nova %>% filter(ukrepal=="Cleveland Police") %>% group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
     }
     else if (is.data.frame(data) == FALSE) {
@@ -147,7 +149,8 @@ shinyServer(function(input, output) {
       data <- data.frame(mesec, count, ukrepal)
     }
     
-    ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal))+geom_bar( stat="identity", position="dodge") +
+    ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal), size = 20) + 
+      geom_bar( stat="identity", position="dodge") +
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
                        labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) + 
       ylim(0, maksi) + 
