@@ -21,10 +21,10 @@ shinyServer(function(input, output) {
   tbl.lsoa <- tbl(conn, "lsoa")
   
   
-  postopek <-  tbl.postopek %>% data.frame()
+  postopek_join <-  tbl.postopek %>% data.frame()
     #filter(stanje=="Investigation complete; no suspect identified") %>% data.frame()%>%View
-  zlocin <- tbl.zlocin %>% filter(is.null(idp) == FALSE) %>% data.frame()
-  data <-  inner_join(postopek, zlocin, by = "idp") %>% data.frame()
+  zlocin_join <- tbl.zlocin %>% filter(is.null(idp) == FALSE) %>% data.frame()
+  data_join <-  inner_join(postopek_join, zlocin_join, by = "idp") %>% data.frame()
     #summarise(count = count(mesec)) %>% data.frame()%>%View
   
   
@@ -104,19 +104,7 @@ shinyServer(function(input, output) {
   
   
   output$zlocini_graph <- renderPlot({
-    zlocin <- tbl.zlocin %>% data.frame()
-    lsoa <- tbl.lsoa %>% data.frame()
-    #data <- merge(x = zlocin, y = lsoa, by = NULL) %>% group_by(lsoa) %>% summarise(count = count(lsoa)) %>% data.frame() %>% table()
-    sqldf("SELECT COUNT(*) FROM zlocin", drv="SQLite") %>% table()
-    
-    #plotData <- tbl.zlocin %>% group_by(status) %>%
-    #  summarise(count = count(status)) %>% data.frame()
-    #ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
-    #  geom_bar(colour="black", stat = "identity", width = 1) + 
-    #  xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
-    
-    #data1 <- tbl.zlocin %>% group_by(ukrepal,mesec)%>% summarise(count = count(mesec)) %>% data.frame()%>%View
-    #data <- tbl.zlocin %>%filter(ukrepal=="City of London Police")%>%group_by(mesec) %>% summarise(count = count(mesec)) %>% data.frame()%>%View
+    data_join[1:50] %>% table()
   })
   
   output$graph <- renderPlot({
