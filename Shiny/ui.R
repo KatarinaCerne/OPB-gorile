@@ -3,7 +3,7 @@ library(shinythemes)
 
 shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                    tabPanel("Home",
-                            mainPanel("You are in application Crimes in the UK, where there are basic information about crimes in the UK. ",
+                            mainPanel("You are in application Crimes in the UK, where there are basics information about crimes in the UK. ",
                                       tags$br(),
                                       "In tabs you will find some analitics, graphs.")
                    ),
