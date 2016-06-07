@@ -20,6 +20,13 @@ shinyServer(function(input, output) {
   tbl.lsoa <- tbl(conn, "lsoa")
   
   
+  postopek <-  tbl.postopek %>% data.frame()
+    #filter(stanje=="Investigation complete; no suspect identified") %>% data.frame()%>%View
+  zlocin <- tbl.zlocin %>% filter(is.null(idp) == FALSE) %>% data.frame()
+  data <-  inner_join(postopek, zlocin, by = "idp") %>% data.frame()
+    #summarise(count = count(mesec)) %>% data.frame()%>%View
+  
+  
   output$preiskave <- renderPlot({
     pr_podatki <- paste(input$podatek)
     #bi se dalo to kako bolj elegantno?
