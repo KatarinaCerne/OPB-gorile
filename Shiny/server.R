@@ -24,7 +24,7 @@ shinyServer(function(input, output) {
     pr_podatki <- paste(input$podatek)
     #bi se dalo to kako bolj elegantno?
     
-    if(pr_podatki == "spol"){
+    if(pr_podatki == "gender"){
       #  data1 <- tbl.preiskava
       #  for(element in input$checkGroup){
       #    if (element == "spol"){
@@ -42,7 +42,7 @@ shinyServer(function(input, output) {
         geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
         xlab("") + ylab("")
     }
-    else if (pr_podatki == "starost"){
+    else if (pr_podatki == "age"){
       plotData1 <- tbl.preiskava %>% group_by(starostmin)%>%summarise(count=count(starostmin))%>%data.frame()
       
       ggplot(plotData1, aes(x = factor(1),y=count,fill = factor(starostmin)) )+ 
@@ -50,7 +50,7 @@ shinyServer(function(input, output) {
         coord_polar(theta = "y") + 
         xlab("") + ylab("")
     }
-    else if (pr_podatki == "rasa"){
+    else if (pr_podatki == "race"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
       ggplot(plotData1, aes(x = rasa, y = count, fill = rasa)) + 
         geom_bar(stat = "identity", width = 1) +
@@ -59,25 +59,25 @@ shinyServer(function(input, output) {
       #theme(axis.text.x = element_text(angle = 90, hjust = 1),legend.position = 'none')
       
     }
-    else if (pr_podatki == "uradna rasa"){
+    else if (pr_podatki == "official race"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
       ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
         geom_bar(stat = "identity", width = 1)  + coord_polar(theta = "y")+
         xlab("") + ylab("")
     }
-    else if (pr_podatki == "predmet preiskave"){
+    else if (pr_podatki == "object of search"){
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
       ggplot(plotData1, aes(x = predmetpreiskave, y = count, fill = predmetpreiskave)) + 
         geom_bar(stat = "identity", width = 1) + 
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
-    else if (pr_podatki == "stanje"){
+    else if (pr_podatki == "outcome"){
       plotData1 <- tbl.preiskava %>% group_by(stanje)%>%summarise(count=count(stanje))%>%data.frame()
       ggplot(plotData1, aes(x = stanje, y = count, fill = stanje)) + 
         geom_bar(stat = "identity", width = 1) + 
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
-    else if (pr_podatki == "tip"){
+    else if (pr_podatki == "type"){
       plotData1 <- tbl.preiskava %>% group_by(tip)%>%summarise(count=count(tip))%>%data.frame()
       ggplot(plotData1, aes(x = factor(1), y = count, fill = tip)) + 
         geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y")+
@@ -104,10 +104,10 @@ shinyServer(function(input, output) {
   
   output$graph <- renderPlot({
     vrstap=paste(input$vrstapod,sep=" ")
-    if (vrstap=="Zlocin"){
+    if (vrstap=="crime"){
       tbl.nova<-tbl.zlocin
     }
-    else if (vrstap=="Preiskava"){
+    else if (vrstap=="stop & search"){
       tbl.nova<-tbl.preiskava
     }
     

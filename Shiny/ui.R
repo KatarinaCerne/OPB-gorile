@@ -1,23 +1,23 @@
 library(shiny)
 library(shinythemes)
 
-shinyUI(navbarPage("Zlocini UK", theme = shinytheme("flatly"),
-                   tabPanel("Domov",
-                            mainPanel("Nahajate se v aplikaciji Zlocini UK, kjer so zbrani osnovni podatki o zlocinih v UK.",
+shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
+                   tabPanel("Home",
+                            mainPanel("You are in application Crimes in the UK, where there are basic information about crimes in the UK. ",
                                       tags$br(),
-                                      "V naslednjih zavihkih se nahajajo razno razne analize, prikazi in grafi.")
+                                      "In tabs you will find some analitics, graphs.")
                    ),
-                   tabPanel("Zlocini",
+                   tabPanel("Crimes",
                             #sidebarLayout(
                               mainPanel(plotOutput("zlocini_graph"))
                    ),
-                   tabPanel("Preiskave", icon = icon("fa fa-pie-chart", lib = "font-awesome"),
+                   tabPanel("Stop and searches", icon = icon("fa fa-pie-chart", lib = "font-awesome"),
                             sidebarLayout(
                               mainPanel(plotOutput("preiskave")),
                               sidebarPanel(selectInput("podatek",
-                                                       label = "Izberi vrsto podatkov",
-                                                       choices = c("spol", "starost", "rasa","uradna rasa", "predmet preiskave","stanje","tip"),
-                                                       selected = "spol")
+                                                       label = "Select type of data",
+                                                       choices = c("gender", "age", "race","official race", "object of search","outcome","type"),
+                                                       selected = "gender")
                                            #checkboxGroupInput("checkGroup", label = h3("Filtriraj"), 
                                            #                  choices = list("spol" = "spol", "starost" = "starost", "uradna rasa" = "uradnarasa", "tip" = "tip"),
                                            #                  selected = "spol"),
@@ -25,32 +25,32 @@ shinyUI(navbarPage("Zlocini UK", theme = shinytheme("flatly"),
                                            #fluidRow(column(3, verbatimTextOutput("value")))
                             ))
                    ),
-                   navbarMenu("Zemljevidi", icon = icon("fa fa-globe", lib = "font-awesome"),
-                              tabPanel("Zemljevid", 
+                   navbarMenu("Maps", icon = icon("fa fa-globe", lib = "font-awesome"),
+                              tabPanel("Map", 
                                        sidebarLayout(
                                          sidebarPanel(
-                                           helpText("Na desnem zemljevidu so markirani zlocini, ki so se zgodili v izbranem policijskem okrozju."),
+                                           helpText("On the right map there are marked crimes from selected force."),
                                            selectInput("mesto_zemljevid", 
-                                                       label = "Izberi mesto prikaza",
+                                                       label = "Select city",
                                                        choices = list("City Of London"="City of London", "Cleveland"="Middlesbrough"),
                                                        selected = "City of London"),
                                            selectInput("tip_zemljevid",
-                                                       label = "Izberi tip prikaza zemljevida",
+                                                       label = "Select type of map",
                                                        choices = c('satellite', 'hybrid', 'terrain', 'toner', 'watercolor'),
                                                        selected = 'satellite'),
                                            sliderInput("zoom",
-                                                       label = "Zoomiranje zemljevida",
+                                                       label = "Map zoom",
                                                        min = 5, max = 20, value = 14, step = 1)
                                          ),
                                          mainPanel(plotOutput("map"))
                                        )
                               ),
-                              tabPanel("Zemljevid2",
+                              tabPanel("Map2",
                                        sidebarLayout(
                                          sidebarPanel(
                                            helpText("Prikazani zemljevid ima bolj osencene predele, kjer se je zgodilo vec zlocinov."),
                                            selectInput("mesto_zemljevid2", 
-                                                       label = "Izberi mesto prikaza",
+                                                       label = "Select city",
                                                        choices = list("City Of London"="City of London", "Cleveland"="Middlesbrough"),
                                                        selected = "City of London")
                                            #sliderInput("zoom2",
@@ -60,21 +60,21 @@ shinyUI(navbarPage("Zlocini UK", theme = shinytheme("flatly"),
                                          mainPanel(plotOutput("map2"))
                                        )
                               ),
-                              tabPanel("Zemljevid3",
+                              tabPanel("Map3",
                                        sidebarLayout(
                                          sidebarPanel(
-                                           helpText("Trenutno ta zemljevid obratuje samo za Cleveland.")
+                                           helpText("Currently this map works just for Cleveland")
                                          ),
                                          mainPanel(plotOutput("map3"))
                                        )
                               )
                     ),
-                   tabPanel("Mesecno st. ukrepanj", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
+                   tabPanel("Yearly statistic", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
                             sidebarLayout(
                               sidebarPanel(selectInput("vrstapod",
-                                                       label = "Izberi vrsto podatka",
-                                                       choices = c("Zlocin", "Preiskava"),
-                                                       selected = "Zlocin"),
+                                                       label = "Select data type",
+                                                       choices = c("crime", "stop & search"),
+                                                       selected = "crime"),
                                            checkboxInput("checkbox_z", 
                                                          label = "City of London", value = TRUE),
                                            checkboxInput("checkbox_p", 
