@@ -148,7 +148,7 @@ shinyServer(function(input, output) {
     ggmap(map, fullpage = TRUE) +
       geom_point(
         aes(x = gsirina, y = gdolzina),
-        data = data, colour = "red", size = 3
+        data = data, colour = "#DF0101", size = 3
       )
       })
 
@@ -168,7 +168,7 @@ shinyServer(function(input, output) {
       geom_point(
         data = data,
         aes(x = gsirina, y = gdolzina),
-        colour = "dark green", alpha =.03, size = size
+        colour = "#0B0B3B", alpha =.03, size = size
       )
   })
   

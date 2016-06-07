@@ -1,6 +1,7 @@
 library(shiny)
+library(shinythemes)
 
-shinyUI(navbarPage("Zlocini UK",
+shinyUI(navbarPage("Zlocini UK", theme = shinytheme("flatly"),
                    tabPanel("Domov",
                             mainPanel("Nahajate se v aplikaciji Zlocini UK, kjer so zbrani osnovni podatki o zlocinih v UK.",
                                       tags$br(),
@@ -10,7 +11,7 @@ shinyUI(navbarPage("Zlocini UK",
                             #sidebarLayout(
                               mainPanel(plotOutput("zlocini_graph"))
                    ),
-                   tabPanel("Preiskave",
+                   tabPanel("Preiskave", icon = icon("fa fa-pie-chart", lib = "font-awesome"),
                             sidebarLayout(
                               mainPanel(plotOutput("preiskave")),
                               sidebarPanel(selectInput("podatek",
@@ -22,11 +23,10 @@ shinyUI(navbarPage("Zlocini UK",
                                            #                  selected = "spol"),
                                            #hr(),
                                            #fluidRow(column(3, verbatimTextOutput("value")))
-                            )
-                   )
+                            ))
                    ),
-                   navbarMenu("Zemljevidi",
-                              tabPanel("Zemljevid",
+                   navbarMenu("Zemljevidi", icon = icon("fa fa-globe", lib = "font-awesome"),
+                              tabPanel("Zemljevid", 
                                        sidebarLayout(
                                          sidebarPanel(
                                            helpText("Na desnem zemljevidu so markirani zlocini, ki so se zgodili v izbranem policijskem okrozju."),
@@ -69,7 +69,7 @@ shinyUI(navbarPage("Zlocini UK",
                                        )
                               )
                     ),
-                   tabPanel("Mesecno st. ukrepanj",
+                   tabPanel("Mesecno st. ukrepanj", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
                             sidebarLayout(
                               sidebarPanel(selectInput("vrstapod",
                                                        label = "Izberi vrsto podatka",
