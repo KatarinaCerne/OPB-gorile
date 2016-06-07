@@ -40,7 +40,9 @@ shinyServer(function(input, output) {
       #  plotData1 <- data2
       ggplot(plotData1, aes(x = factor(1), y = count, fill = spol)) + 
         geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
-        xlab("") + ylab("")
+        xlab("") + 
+        ylab("") + 
+        scale_fill_discrete(name="Gender")
     }
     else if (pr_podatki == "age"){
       plotData1 <- tbl.preiskava %>% group_by(starostmin)%>%summarise(count=count(starostmin))%>%data.frame()
@@ -48,7 +50,9 @@ shinyServer(function(input, output) {
       ggplot(plotData1, aes(x = factor(1),y=count,fill = factor(starostmin)) )+ 
         geom_bar(stat = "identity", width = 1) + 
         coord_polar(theta = "y") + 
-        xlab("") + ylab("")
+        xlab("") + 
+        ylab("") + 
+        scale_fill_discrete(name="Age")
     }
     else if (pr_podatki == "race"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
@@ -63,7 +67,9 @@ shinyServer(function(input, output) {
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
       ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
         geom_bar(stat = "identity", width = 1)  + coord_polar(theta = "y")+
-        xlab("") + ylab("")
+        xlab("") + 
+        ylab("") + 
+        scale_fill_discrete(name="Official race")
     }
     else if (pr_podatki == "object of search"){
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
@@ -81,7 +87,9 @@ shinyServer(function(input, output) {
       plotData1 <- tbl.preiskava %>% group_by(tip)%>%summarise(count=count(tip))%>%data.frame()
       ggplot(plotData1, aes(x = factor(1), y = count, fill = tip)) + 
         geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y")+
-        xlab("") + ylab("")
+        xlab("") + 
+        ylab("") + 
+        scale_fill_discrete(name="Type")
     }
   })
   
@@ -128,14 +136,15 @@ shinyServer(function(input, output) {
       mesec <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
       count <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
       maksi <- 100 
-      ukrepal <- "Izberite policijsko postajo"
+      ukrepal <- "Select force"
       data <- data.frame(mesec, count, ukrepal)
     }
     
     ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal))+geom_bar( stat="identity", position="dodge") +
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
-                       labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec"))+ 
-      ylim(0, maksi) 
+                       labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) + 
+      ylim(0, maksi) + 
+      scale_fill_discrete(name="Force")
   })
   
   
