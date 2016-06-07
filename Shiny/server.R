@@ -183,7 +183,7 @@ shinyServer(function(input, output) {
   
   output$map3 <- renderPlot({
     data <- tbl.zlocin %>% filter(ukrepal=="Cleveland Police") %>% group_by(ukrepal, lsoa) %>% data.frame()
-    map3 <- ggplot() + ggtitle("Porazdelitev zlocinov -- Cleveland Police") + xlab("Geografska sirina") + ylab("Geografska dolzina") + geom_boxplot() + theme(
+    map3 <- ggplot() + ggtitle("Crime distribution -- Cleveland Police") + xlab("Longitude") + ylab("Latitude") + geom_boxplot() + theme(
       plot.title = element_text(color = "red", size = 18, face = "bold"),
       axis.title.x = element_text(color = "#08298A", size = 14, face = "bold"),
       axis.title.y = element_text(color = "#08298A", size = 14, face = "bold")

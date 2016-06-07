@@ -3,9 +3,9 @@ library(shinythemes)
 
 shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                    tabPanel("Home",
-                            mainPanel("You are in application Crimes in the UK, where there are basics information about crimes in the UK. ",
+                            mainPanel("Welcome to Crimes in the UK, an application that contains some basics information about crimes and stop-and-search investigations in the UK. ",
                                       tags$br(),
-                                      "In tabs you will find some analitics, graphs.")
+                                      "In the following tabs you will find some analitics of the data, represented with graphs and maps.")
                    ),
                    tabPanel("Crimes",
                             #sidebarLayout(
@@ -29,7 +29,7 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               tabPanel("Map", 
                                        sidebarLayout(
                                          sidebarPanel(
-                                           helpText("On the right map there are marked crimes from selected force."),
+                                           helpText("The dots on the map mark the location of crimes that fall within the selected force."),
                                            selectInput("mesto_zemljevid", 
                                                        label = "Select city",
                                                        choices = list("City Of London"="City of London", "Cleveland"="Middlesbrough"),
@@ -48,7 +48,9 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               tabPanel("Map2",
                                        sidebarLayout(
                                          sidebarPanel(
-                                           helpText("Prikazani zemljevid ima bolj osencene predele, kjer se je zgodilo vec zlocinov."),
+                                           helpText("The shade of the marks on this map represents the number of crimes, that were commited in a certan area.",
+                                                    tags$br(),
+                                                    "The darker the mark the more crimes were commited."),
                                            selectInput("mesto_zemljevid2", 
                                                        label = "Select city",
                                                        choices = list("City Of London"="City of London", "Cleveland"="Middlesbrough"),
@@ -63,7 +65,7 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               tabPanel("Map3",
                                        sidebarLayout(
                                          sidebarPanel(
-                                           helpText("Currently this map works just for Cleveland")
+                                           helpText("This map currently works just for Cleveland")
                                          ),
                                          mainPanel(plotOutput("map3"))
                                        )
