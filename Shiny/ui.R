@@ -7,7 +7,7 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                       tags$br(),
                                       "In the following tabs you will find some analitics of the data, represented with graphs and maps.")
                    ),
-                   tabPanel("Crimes",
+                   tabPanel("Crimes", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
                             #sidebarLayout(
                               mainPanel(plotOutput("zlocini_graph"))
                    ),
@@ -71,7 +71,7 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                        )
                               )
                     ),
-                   tabPanel("Yearly statistic", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
+                   tabPanel("Yearly statistics", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
                             sidebarLayout(
                               sidebarPanel(selectInput("vrstapod",
                                                        label = "Select data type",
