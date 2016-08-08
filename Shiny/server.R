@@ -144,6 +144,7 @@ shinyServer(function(input, output) {
     ggplot(data=data, aes(x=mesec, y=count, fill=ukrepal), size = 20) + 
       geom_bar( stat="identity", position="dodge") +
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
+                       name = "",
                        labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) + 
       ylim(0, maksi) + 
       scale_fill_discrete(name="Force")
