@@ -150,7 +150,7 @@ shinyServer(function(input, output) {
   })
   
   
-  # Zemljevid
+  # Osnovni zemljevid
   output$map <- renderPlot({
     data <- tbl.zlocin %>% data.frame()
     data2 <- tbl.preiskava %>% data.frame()
@@ -163,19 +163,13 @@ shinyServer(function(input, output) {
       )
       })
 
-  # Zemljevid2
-  output$map2 <- renderPlot({
-    gc <- input$mesto_zemljevid2
-    if (gc == "City of London"){
-      map2 <- qmap(gc, source = "stamen", zoom = 14, maptype = "toner", darken = c(.3,"#BBBBBB"))
-      size <- 5
-    }
-    else if (gc == "Middlesbrough"){
-      map2 <- qmap(gc, source = "stamen", zoom = 11, maptype = "toner", darken = c(.3,"#BBBBBB"))
-      size <- 2
-    }
+  # Osencena zemljevida
+  output$map2london <- renderPlot({
+    gc <- "One New Change, London"
+    map2london <- qmap(gc, source = "stamen", zoom = 14, maptype = "toner", darken = c(.3,"#BBBBBB"))
+    size <- 5
     data <- tbl.zlocin %>% data.frame()
-    map2 +
+    map2london +
       geom_point(
         data = data,
         aes(x = gsirina, y = gdolzina),
@@ -183,6 +177,21 @@ shinyServer(function(input, output) {
       )
   })
   
+  output$map2cleveland <-renderPlot({
+    gc <- "Middlesbrough"
+    map2cleveland <- qmap(gc, source = "stamen", zoom = 11, maptype = "toner", darken = c(.3,"#BBBBBB"))
+    size <- 2
+    data <- tbl.zlocin %>% data.frame()
+    map2cleveland +
+      geom_point(
+        data = data,
+        aes(x = gsirina, y = gdolzina),
+        colour = "#0B0B3B", alpha =.03, size = size
+      )
+  })
+  
+  
+  # Zemljevid Clevelanda s porazdelitvijo zlocinov, ggplot
   output$map3 <- renderPlot({
     data <- tbl.zlocin %>% filter(ukrepal=="Cleveland Police") %>% group_by(ukrepal, lsoa) %>% data.frame()
     map3 <- ggplot() + ggtitle("Crime distribution -- Cleveland Police") + xlab("Longitude") + ylab("Latitude") + geom_boxplot() + theme(
