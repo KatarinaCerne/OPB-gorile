@@ -5,7 +5,12 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                    tabPanel("Home",
                             mainPanel(h4("Welcome to"), h1("Crimes in the UK,"), h4("an application that contains some basics information about crimes and stop-and-search investigations in the UK."),
                                       tags$br(),
-                                      "In the following tabs you will find some analitics of the data, represented with graphs and maps.")
+                                      "In the following tabs you will find some analitics of the data, represented with graphs and maps.",
+                                      tags$div(class="header", checked=NA,
+                                               tags$p("Our application only includes data from forces of Cleveland Police and City of London Police. Data from other forces is available on the link below."),
+                                               tags$a(href="https://data.police.uk/data/", "Click here and download more data if you want :) ")
+                                      )
+                                      )
                    ),
                    
                    tabPanel("Crimes", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
@@ -49,15 +54,16 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                        )
                               ),
                               
-                              tabPanel("General crime map",
-                                      sidebarLayout(
+                              tabPanel("General crime maps",
+                                      sidebarLayout(position = "right",
                                         sidebarPanel(
                                           helpText(
-                                            "The shade of the marks on this map represents the number of crimes that were commited in a certain area.",
-                                            tags$br(),
-                                            "The darker the mark the more crimes were commited.",
-                                            tags$br(),
-                                            "It may take some time to load the maps. Please, be patient."
+                                            p("The shade of the marks on this map represents the number of crimes that were commited in a certain area."),
+                                            br(),
+                                            p("The darker the mark the more crimes were commited."),
+                                            br(),
+                                            p("It may take some time to load the maps."), 
+                                            strong("Please, be patient.")
                                           )
                                         ),
                                         mainPanel(h3("City of London's map"),plotOutput("map2london"),h3("Cleveland's map"),plotOutput("map2cleveland"))
