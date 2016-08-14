@@ -77,18 +77,28 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               
                               
                               tabPanel("Crime distribution maps",
-                                       sidebarLayout(position = "right",
-                                         sidebarPanel(
-                                           helpText(
-                                             p("On the left you see crime distribution maps."),
-                                             br(),
-                                             p("The crimes that were commited are represented with dots which have the coordinates (longitude, latitude) at geographic coordinate system."),
-                                             br(),
-                                             p("It may take some time to load the maps."), 
-                                             strong("Please, be patient.")
-                                            )
-                                         ),
-                                         mainPanel(h3("City of London's crime distribution map"),plotOutput("map3london"),h3("Cleveland's crime distribution map"),plotOutput("map3cleveland"))
+                                       fluidPage(position = "right",
+                                         fluidRow(
+                                           column(4, offset = 0.5,
+                                            h3("City of London's crime distribution map"),plotOutput("map3london")
+                                          ),
+                                          column(4, offset = 0.3,
+                                            h3("Cleveland's crime distribution map"),plotOutput("map3cleveland")
+                                          ),
+                                         column(3,
+                                                helpText(
+                                                  br(),
+                                                  br(),
+                                                  br(),
+                                                  p("On the left you see crime distribution maps."),
+                                                  br(),
+                                                  p("The crimes that were commited are represented with dots which have the coordinates (longitude, latitude) at geographic coordinate system."),
+                                                  br(),
+                                                  p("It may take some time to load the maps."), 
+                                                  strong("Please, be patient.")
+                                                ))
+                                         )
+                                           
                                        )
                               )
                     ),

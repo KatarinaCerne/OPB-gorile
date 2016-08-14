@@ -207,8 +207,10 @@ shinyServer(function(input, output) {
   # Zemljevid Clevelanda s porazdelitvijo zlocinov, ggplot
   output$map3cleveland <- renderPlot({
     data <- tbl.zlocin %>% filter(ukrepal=="Cleveland Police") %>% group_by(ukrepal, lsoa) %>% data.frame()
-    map3cleveland <- ggplot() + ggtitle("Crime distribution -- Cleveland Police") + xlab("Longitude") + ylab("Latitude") + geom_boxplot() + theme(
-      plot.title = element_text(color = "red", size = 18, face = "bold"),
+    map3cleveland <- ggplot() + 
+      #ggtitle("Crime distribution -- Cleveland Police") + 
+      xlab("Longitude") + ylab("Latitude") + geom_boxplot() + theme(
+      #plot.title = element_text(color = "red", size = 18, face = "bold"),
       axis.title.x = element_text(color = "#08298A", size = 14, face = "bold"),
       axis.title.y = element_text(color = "#08298A", size = 14, face = "bold")
     )
@@ -221,8 +223,10 @@ shinyServer(function(input, output) {
   # Zemljevid City of Londona s porazdelitvijo zlocinov, ggplot
   output$map3london <- renderPlot({
     data <- tbl.zlocin %>% filter(ukrepal=="City of London Police") %>% group_by(ukrepal, lsoa) %>% data.frame()
-    map3london <- ggplot() + ggtitle("Crime distribution -- City of London Police") + xlab("Longitude") + ylab("Latitude") + geom_boxplot() + theme(
-      plot.title = element_text(color = "red", size = 18, face = "bold"),
+    map3london <- ggplot() + 
+      #ggtitle("Crime distribution -- City of London Police") + 
+      xlab("Longitude") + ylab("Latitude") + geom_boxplot() + theme(
+      #plot.title = element_text(color = "red", size = 18, face = "bold"),
       axis.title.x = element_text(color = "#08298A", size = 14, face = "bold"),
       axis.title.y = element_text(color = "#08298A", size = 14, face = "bold")
     )
