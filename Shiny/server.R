@@ -28,22 +28,32 @@ shinyServer(function(input, output) {
     
     if(pr_podatki == "gender"){
       plotData1 <- tbl.preiskava %>% group_by(spol)%>%summarise(count=count(spol))%>%data.frame()
-      stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
-      spoli <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
-      barve <- c("yellow", "blue", "violet") 
-      pie(stevila, spoli, col=barve)
+      #stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
+      #spoli <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
+      #barve <- c("yellow", "blue", "violet") 
+      #pie(stevila, spoli, col=barve)
+      plotData1 <- plotData1[order(plotData1[,2]) , ]
+      
+      midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
+      
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = spol)) + 
+        geom_bar(stat = "identity", width = 1) + 
+        coord_polar(theta = "y")+xlab("") + ylab("")+
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
+        scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
+        scale_fill_discrete(name="Gender", 
+                            labels=c("No data", "Female", "Male"))
     }
     else if (pr_podatki == "age"){
       plotData1 <- tbl.preiskava %>% group_by(starostmin)%>% summarise(count=count(starostmin))%>% data.frame()
       
       plotData1 <- plotData1[order(plotData1[,2]) , ]
-      #plotData1 <- plotData1[-c(1),]%>%View
       
-      starost <- c(paste("over ", plotData1[2, 1]), 
-                   paste("over ", plotData1[3, 1]), 
-                   paste("over ", plotData1[4, 1]), 
-                   paste("over ", plotData1[5, 1]))
-      stevila <- c(plotData1[2, 2], plotData1[3, 2], plotData1[4, 2], plotData1[5, 2])
+      #starost <- c(paste("over ", plotData1[2, 1]), 
+      #             paste("over ", plotData1[3, 1]), 
+      #             paste("over ", plotData1[4, 1]), 
+      #             paste("over ", plotData1[5, 1]))
+      #stevila <- c(plotData1[2, 2], plotData1[3, 2], plotData1[4, 2], plotData1[5, 2])
       
       zalegendo <-c("10-17 years","18-24 years","25-33 years","over 34 years")
       #pie(stevila, zalegendo)
@@ -55,6 +65,7 @@ shinyServer(function(input, output) {
                 geom_bar(stat = "identity", width = 1) + 
                 coord_polar(theta = "y") + 
                 xlab("") + ylab("") + 
+                theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
                 scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2]))) +
                 scale_fill_discrete(name="Age", 
                                     labels=c("10-17 years", "18-24 years", "25-33 years","over 34 years"))
@@ -63,6 +74,7 @@ shinyServer(function(input, output) {
     }
     else if (pr_podatki == "race"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
+      
       ggplot(plotData1, aes(x = rasa, y = count, fill = rasa)) + 
         geom_bar(stat = "identity", width = 1) +
         geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.025) +
@@ -70,11 +82,17 @@ shinyServer(function(input, output) {
     }
     else if (pr_podatki == "official race"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
+      plotData1 <- plotData1[order(plotData1[,2]) , ]
+      
+      midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
+      
       ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
         geom_bar(stat = "identity", width = 1)  + 
         coord_polar(theta = "y")+
         xlab("") + 
         ylab("") + 
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
+        scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Official race")
        
         #theme_void()
@@ -95,10 +113,24 @@ shinyServer(function(input, output) {
     }
     else if (pr_podatki == "type"){
       plotData1 <- tbl.preiskava %>% group_by(tip) %>% summarise(count=count(tip)) %>% data.frame()
-      stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
-      tipi <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
-      barve <- c("red", "green", "orange") 
-      pie(stevila, tipi, col=barve)
+      plotData1 <- plotData1[order(plotData1[,2]) , ]
+      
+      midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
+      
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = tip)) + 
+        geom_bar(stat = "identity", width = 1)  + 
+        coord_polar(theta = "y")+
+        xlab("") + 
+        ylab("") + 
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
+        scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
+        scale_fill_discrete(name="Type of search")
+      
+      
+      #stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
+      #tipi <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
+      #barve <- c("red", "green", "orange") 
+      #pie(stevila, tipi, col=barve)
     }
   })
   
