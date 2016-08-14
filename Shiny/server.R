@@ -108,6 +108,8 @@ shinyServer(function(input, output) {
       summarise(count = count(status)) %>% data.frame()
     ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
       geom_bar(colour="black", stat = "identity", width = 1) + 
+      geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
+      ylim(0, 46500) +
       xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
   })
   

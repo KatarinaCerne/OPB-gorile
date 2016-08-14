@@ -14,8 +14,13 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                    ),
                    
                    tabPanel("Crimes", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
-                            #sidebarLayout(
-                              mainPanel(plotOutput("zlocini_graph"))
+                            fluidPage(
+                              fluidRow(
+                                column(7, align = "center", offset = 1,
+                              plotOutput("zlocini_graph")
+                                        )
+                                       )
+                                      )
                    ),
                    
                    tabPanel("Stop and searches", icon = icon("fa fa-pie-chart", lib = "font-awesome"),
