@@ -33,24 +33,11 @@ shinyServer(function(input, output) {
     #bi se dalo to kako bolj elegantno?
     
     if(pr_podatki == "gender"){
-      #  data1 <- tbl.preiskava
-      #  for(element in input$checkGroup){
-      #    if (element == "spol"){
-      #      data2 <- data1%>%group_by(spol)%>%summarise(count=count(spol))%>%data.frame()
-      #    }
-      #    else if (element == "uradnarasa"){
-      #    kombinacija <- data1$spol%>%data.frame()%>%View
-      #    data1 <- cbind(kombinacija,data1)
-      #    data2 <- data1%>%group_by(kombinacija)%>%summarise(count=count(kombinacija))%>%data.frame()
-      #    }
-      #}
       plotData1 <- tbl.preiskava %>% group_by(spol)%>%summarise(count=count(spol))%>%data.frame()
-      #  plotData1 <- data2
-      ggplot(plotData1, aes(x = factor(1), y = count, fill = spol)) + 
-        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y") + 
-        xlab("") + 
-        ylab("") + 
-        scale_fill_discrete(name="Gender")
+      stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
+      spoli <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
+      barve <- c("yellow", "blue", "violet") 
+      pie(stevila, spoli, col=barve)
     }
     else if (pr_podatki == "age"){
       plotData1 <- tbl.preiskava %>% group_by(starostmin)%>%summarise(count=count(starostmin))%>%data.frame()
