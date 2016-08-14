@@ -9,7 +9,7 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                       tags$div(class="header", checked=NA,
                                                tags$p("Our application only includes data from forces of Cleveland Police and City of London Police. Data from other forces is available on the link below."),
                                                tags$a(href="https://data.police.uk/data/", "Click here and download more data if you want :) ")
-                                      )
+                                                )
                                       )
                    ),
                    
@@ -30,12 +30,8 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                                        label = "Select type of data",
                                                        choices = c("gender", "age", "race","official race", "object of search","outcome","type"),
                                                        selected = "gender")
-                                           #checkboxGroupInput("checkGroup", label = h3("Filtriraj"), 
-                                           #                  choices = list("spol" = "spol", "starost" = "starost", "uradna rasa" = "uradnarasa", "tip" = "tip"),
-                                           #                  selected = "spol"),
-                                           #hr(),
-                                           #fluidRow(column(3, verbatimTextOutput("value")))
-                            ))
+                                                        )
+                              )
                    ),
                    
                    navbarMenu("Maps", icon = icon("fa fa-globe", lib = "font-awesome"),

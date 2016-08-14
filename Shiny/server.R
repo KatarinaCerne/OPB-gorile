@@ -8,7 +8,7 @@ library(RColorBrewer)
 library(sqldf)
 library(scales)
 
-#source("auth.R")
+
 source("auth_public.R")
 
 shinyServer(function(input, output) {
@@ -17,21 +17,15 @@ shinyServer(function(input, output) {
                        user = user, password = password)
   # Pripravimo tabele
   tbl.zlocin <- tbl(conn, "zlocin")
-  #tbl.postopek <- tbl(conn, "postopek")
   tbl.preiskava <- tbl(conn, "preiskava")
   tbl.lsoa <- tbl(conn, "lsoa")
   
   
   output$preiskave <- renderPlot({
     pr_podatki <- paste(input$podatek)
-    #bi se dalo to kako bolj elegantno?
     
     if(pr_podatki == "gender"){
       plotData1 <- tbl.preiskava %>% group_by(spol)%>%summarise(count=count(spol))%>%data.frame()
-      #stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
-      #spoli <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
-      #barve <- c("yellow", "blue", "violet") 
-      #pie(stevila, spoli, col=barve)
       plotData1 <- plotData1[order(plotData1[,2]) , ]
       
       midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
@@ -46,21 +40,12 @@ shinyServer(function(input, output) {
     }
     else if (pr_podatki == "age"){
       plotData1 <- tbl.preiskava %>% group_by(starostmin)%>% summarise(count=count(starostmin))%>% data.frame()
-      
       plotData1 <- plotData1[order(plotData1[,2]) , ]
       
-      #starost <- c(paste("over ", plotData1[2, 1]), 
-      #             paste("over ", plotData1[3, 1]), 
-      #             paste("over ", plotData1[4, 1]), 
-      #             paste("over ", plotData1[5, 1]))
-      #stevila <- c(plotData1[2, 2], plotData1[3, 2], plotData1[4, 2], plotData1[5, 2])
-      
       zalegendo <-c("10-17 years","18-24 years","25-33 years","over 34 years")
-      #pie(stevila, zalegendo)
       
       midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
 
-      
       ggplot(plotData1, aes(x = factor(1),y=count,fill = factor(starostmin))) +
                 geom_bar(stat = "identity", width = 1) + 
                 coord_polar(theta = "y") + 
@@ -94,8 +79,6 @@ shinyServer(function(input, output) {
         theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Official race")
-       
-        #theme_void()
     }
     else if (pr_podatki == "object of search"){
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
@@ -125,12 +108,6 @@ shinyServer(function(input, output) {
         theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Type of search")
-      
-      
-      #stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
-      #tipi <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
-      #barve <- c("red", "green", "orange") 
-      #pie(stevila, tipi, col=barve)
     }
   })
   
@@ -158,7 +135,6 @@ shinyServer(function(input, output) {
     if (input$checkbox_z && input$checkbox_p){
       data <- tbl.nova %>% group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
       maksi <- max(data[["count"]]) + 50
-      
     }
     else if (input$checkbox_z){
       data <- tbl.nova %>% filter(ukrepal=="City of London Police") %>% group_by(ukrepal,mesec) %>% summarise(count = count(mesec)) %>% data.frame()
