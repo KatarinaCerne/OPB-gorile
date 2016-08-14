@@ -45,12 +45,14 @@ shinyServer(function(input, output) {
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
       ggplot(plotData1, aes(x = rasa, y = count, fill = rasa)) + 
         geom_bar(stat = "identity", width = 1) +
+        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.025) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "official race"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
       ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
-        geom_bar(stat = "identity", width = 1)  + coord_polar(theta = "y")+
+        geom_bar(stat = "identity", width = 1)  + 
+        coord_polar(theta = "y")+
         xlab("") + 
         ylab("") + 
         scale_fill_discrete(name="Official race")
@@ -59,12 +61,14 @@ shinyServer(function(input, output) {
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
       ggplot(plotData1, aes(x = predmetpreiskave, y = count, fill = predmetpreiskave)) + 
         geom_bar(stat = "identity", width = 1) + 
+        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "outcome"){
       plotData1 <- tbl.preiskava %>% group_by(stanje)%>%summarise(count=count(stanje))%>%data.frame()
       ggplot(plotData1, aes(x = stanje, y = count, fill = stanje)) + 
         geom_bar(stat = "identity", width = 1) + 
+        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "type"){
