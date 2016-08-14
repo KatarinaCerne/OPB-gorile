@@ -114,13 +114,14 @@ shinyServer(function(input, output) {
   
   
   output$zlocini_graph <- renderPlot({
-    plotData <- tbl.zlocin %>% group_by(status) %>%
-      summarise(count = count(status)) %>% data.frame()
+    plotData <- tbl.zlocin %>% group_by(status) %>% summarise(count = count(status)) %>% data.frame()
+    
     ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
       geom_bar(colour="black", stat = "identity", width = 1) + 
       geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
       ylim(0, 46500) +
-      xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
+      xlab("") + ylab("") + 
+      coord_flip() + theme(legend.position = 'none')
   })
   
   output$graph <- renderPlot({
@@ -157,8 +158,8 @@ shinyServer(function(input, output) {
       scale_x_discrete(limit = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
                        name = "",
                        labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) + 
-      ylim(0, maksi) + 
-      scale_fill_discrete(name="Force")
+      scale_y_continuous(breaks=c(min(data[["count"]]), max(data[["count"]]))) +
+      scale_fill_discrete(name="Force") 
   })
   
   
