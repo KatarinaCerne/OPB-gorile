@@ -60,29 +60,39 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               ),
                               
                               tabPanel("General crime maps",
-                                      sidebarLayout(position = "right",
-                                        sidebarPanel(
-                                          helpText(
-                                            p("The shade of the marks on this map represents the number of crimes that were commited in a certain area."),
-                                            br(),
-                                            p("The darker the mark the more crimes were commited."),
-                                            br(),
-                                            p("It may take some time to load the maps."), 
-                                            strong("Please, be patient.")
+                                      fluidPage(position = "right",
+                                        fluidRow(
+                                          column(4,
+                                            h3("City of London's map"),plotOutput("map2london")
+                                          ),
+                                          column(4,
+                                            h3("Cleveland's map"),plotOutput("map2cleveland")
+                                          ),
+                                          column(3,
+                                                 helpText(
+                                                   br(),
+                                                   br(),
+                                                   br(),
+                                                   p("The shade of the marks on this map represents the number of crimes that were commited in a certain area."),
+                                                   br(),
+                                                   p("The darker the mark the more crimes were commited."),
+                                                   br(),
+                                                   p("It may take some time to load the maps."), 
+                                                   strong("Please, be patient.")
+                                                 )
                                           )
-                                        ),
-                                        mainPanel(h3("City of London's map"),plotOutput("map2london"),h3("Cleveland's map"),plotOutput("map2cleveland"))
+                                        )
                                       )
-                              ),
-                              
-                              
+                                      ),
+    
+                                      
                               tabPanel("Crime distribution maps",
                                        fluidPage(position = "right",
                                          fluidRow(
-                                           column(4, offset = 0.5,
+                                           column(4,
                                             h3("City of London's crime distribution map"),plotOutput("map3london")
                                           ),
-                                          column(4, offset = 0.3,
+                                          column(4,
                                             h3("Cleveland's crime distribution map"),plotOutput("map3cleveland")
                                           ),
                                          column(3,
