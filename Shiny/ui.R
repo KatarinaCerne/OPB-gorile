@@ -5,7 +5,7 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                    tabPanel("Home",
                             mainPanel(h4("Welcome to"), h1("Crimes in the UK,"), h4("an application that contains some basics information about crimes and stop-and-search investigations in the UK."),
                                       tags$br(),
-                                      "In the following tabs you will find some analitics of the data, represented with graphs and maps.",
+                                      p("In the following tabs you will find some analitics of the data, represented with graphs and maps."),
                                       tags$div(class="header", checked=NA,
                                                tags$p("Our application only includes data from forces of Cleveland Police and City of London Police. Data from other forces is available on the link below."),
                                                tags$a(href="https://data.police.uk/data/", "Click here and download more data if you want :) ")
@@ -42,7 +42,11 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               tabPanel("Map with crime marks", 
                                        sidebarLayout(
                                          sidebarPanel(
-                                           helpText("The dots on the map mark the location of crimes that fall within the selected force."),
+                                           helpText(p("The dots on the map mark the location of crimes that fall within the selected force."),
+                                                    br(),
+                                                    p("It may take some time to load the map."), 
+                                                    strong("Please, be patient.")
+                                                    ),
                                            selectInput("mesto_zemljevid", 
                                                        label = "Select city",
                                                        choices = list("City Of London"="One New Change, London", "Cleveland"="Middlesbrough"),
@@ -76,12 +80,19 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               ),
                               
                               
-                              tabPanel("Crime distribution map (Cleveland)",
-                                       sidebarLayout(
+                              tabPanel("Crime distribution maps",
+                                       sidebarLayout(position = "right",
                                          sidebarPanel(
-                                           helpText("This map currently works just for Cleveland")
+                                           helpText(
+                                             p("On the left you see crime distribution maps."),
+                                             br(),
+                                             p("The crimes that were commited are represented with dots which have the coordinates (longitude, latitude) at geographic coordinate system."),
+                                             br(),
+                                             p("It may take some time to load the maps."), 
+                                             strong("Please, be patient.")
+                                            )
                                          ),
-                                         mainPanel(plotOutput("map3"))
+                                         mainPanel(h3("City of London's crime distribution map"),plotOutput("map3london"),h3("Cleveland's crime distribution map"),plotOutput("map3cleveland"))
                                        )
                               )
                     ),
