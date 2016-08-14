@@ -21,13 +21,6 @@ shinyServer(function(input, output) {
   tbl.lsoa <- tbl(conn, "lsoa")
   
   
-  #postopek_join <-  tbl.postopek %>% data.frame()
-    #filter(stanje=="Investigation complete; no suspect identified") %>% data.frame()%>%View
-  #zlocin_join <- tbl.zlocin %>% filter(is.null(idp) == FALSE) %>% data.frame()
-  #data_join <-  inner_join(postopek_join, zlocin_join, by = "idp") %>% data.frame()
-    #summarise(count = count(mesec)) %>% data.frame()%>%View
-  
-  
   output$preiskave <- renderPlot({
     pr_podatki <- paste(input$podatek)
     #bi se dalo to kako bolj elegantno?
@@ -40,23 +33,19 @@ shinyServer(function(input, output) {
       pie(stevila, spoli, col=barve)
     }
     else if (pr_podatki == "age"){
-      plotData1 <- tbl.preiskava %>% group_by(starostmin)%>%summarise(count=count(starostmin))%>%data.frame()
-      
-      ggplot(plotData1, aes(x = factor(1),y=count,fill = factor(starostmin)) )+ 
-        geom_bar(stat = "identity", width = 1) + 
-        coord_polar(theta = "y") + 
-        xlab("") + 
-        ylab("") + 
-        scale_fill_discrete(name="Age")
+      plotData1 <- tbl.preiskava %>% group_by(starostmin) %>% summarise(count=count(starostmin)) %>% data.frame()
+      starost <- c(paste("over ", plotData1[2, 1]), 
+                   paste("over ", plotData1[3, 1]), 
+                   paste("over ", plotData1[4, 1]), 
+                   paste("over ", plotData1[5, 1]))
+      stevila <- c(plotData1[2, 2], plotData1[3, 2], plotData1[4, 2], plotData1[5, 2])
+      pie(stevila, starost)
     }
     else if (pr_podatki == "race"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
       ggplot(plotData1, aes(x = rasa, y = count, fill = rasa)) + 
         geom_bar(stat = "identity", width = 1) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
-      
-      #theme(axis.text.x = element_text(angle = 90, hjust = 1),legend.position = 'none')
-      
     }
     else if (pr_podatki == "official race"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
@@ -79,12 +68,11 @@ shinyServer(function(input, output) {
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "type"){
-      plotData1 <- tbl.preiskava %>% group_by(tip)%>%summarise(count=count(tip))%>%data.frame()
-      ggplot(plotData1, aes(x = factor(1), y = count, fill = tip)) + 
-        geom_bar(stat = "identity", width = 1) + coord_polar(theta = "y")+
-        xlab("") + 
-        ylab("") + 
-        scale_fill_discrete(name="Type")
+      plotData1 <- tbl.preiskava %>% group_by(tip) %>% summarise(count=count(tip)) %>% data.frame()
+      stevila <- c(plotData1[1, 2], plotData1[2, 2], plotData1[3, 2])
+      tipi <- c(plotData1[1, 1], plotData1[2, 1], plotData1[3, 1])
+      barve <- c("red", "green", "orange") 
+      pie(stevila, tipi, col=barve)
     }
   })
   
