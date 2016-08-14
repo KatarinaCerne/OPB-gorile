@@ -6,6 +6,7 @@ library(plotrix)
 library(ggmap)
 library(RColorBrewer)
 library(sqldf)
+library(scales)
 
 #source("auth.R")
 source("auth_public.R")
@@ -33,13 +34,32 @@ shinyServer(function(input, output) {
       pie(stevila, spoli, col=barve)
     }
     else if (pr_podatki == "age"){
-      plotData1 <- tbl.preiskava %>% group_by(starostmin) %>% summarise(count=count(starostmin)) %>% data.frame()
+      plotData1 <- tbl.preiskava %>% group_by(starostmin)%>% summarise(count=count(starostmin))%>% data.frame()
+      
+      plotData1 <- plotData1[order(plotData1[,2]) , ]
+      #plotData1 <- plotData1[-c(1),]%>%View
+      
       starost <- c(paste("over ", plotData1[2, 1]), 
                    paste("over ", plotData1[3, 1]), 
                    paste("over ", plotData1[4, 1]), 
                    paste("over ", plotData1[5, 1]))
       stevila <- c(plotData1[2, 2], plotData1[3, 2], plotData1[4, 2], plotData1[5, 2])
-      pie(stevila, starost)
+      
+      zalegendo <-c("10-17 years","18-24 years","25-33 years","over 34 years")
+      #pie(stevila, zalegendo)
+      
+      midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
+
+      
+      ggplot(plotData1, aes(x = factor(1),y=count,fill = factor(starostmin))) +
+                geom_bar(stat = "identity", width = 1) + 
+                coord_polar(theta = "y") + 
+                xlab("") + ylab("") + 
+                scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2]))) +
+                scale_fill_discrete(name="Age", 
+                                    labels=c("10-17 years", "18-24 years", "25-33 years","over 34 years"))
+      
+      
     }
     else if (pr_podatki == "race"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
@@ -56,6 +76,8 @@ shinyServer(function(input, output) {
         xlab("") + 
         ylab("") + 
         scale_fill_discrete(name="Official race")
+       
+        #theme_void()
     }
     else if (pr_podatki == "object of search"){
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
