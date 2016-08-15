@@ -68,7 +68,6 @@ shinyServer(function(input, output) {
       plotData1 <- plotData1[order(plotData1[,2]) , ]
       
       plotData1[plotData1==""]<-"No data"
-      plotData1%>%View
       
       midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
       
@@ -117,6 +116,9 @@ shinyServer(function(input, output) {
   
   
   output$zlocini_graph <- renderPlot({
+    #zl_podatki <- paste(input$podatek)
+    
+    #if(zl_podatki=="status"){
     plotData <- tbl.zlocin %>% group_by(status) %>% summarise(count = count(status)) %>% data.frame()
     
     ggplot(data=plotData, aes(x = replace(status, match("", status), "No data"), y = count, fill = status)) +
@@ -126,6 +128,18 @@ shinyServer(function(input, output) {
       xlab("") + ylab("") + 
       coord_flip() + theme(legend.position = 'none')
   })
+ output$zlocini_graph1 <-renderPlot({   
+    #else if(zl_podatki == "tip")
+    plotData <- tbl.zlocin %>% group_by(tip) %>% summarise(count = count(tip)) %>% data.frame()
+    
+    ggplot(data=plotData, aes(x = replace(tip, match("", tip), "No data"), y = count, fill = tip)) +
+      geom_bar(colour="black", stat = "identity", width = 1) + 
+      geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
+      ylim(0, 46500) +
+      xlab("") + ylab("") + 
+      coord_flip() + theme(legend.position = 'none')
+  }
+  )
   
   
   output$graph <- renderPlot({

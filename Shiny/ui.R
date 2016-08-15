@@ -16,9 +16,11 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                    tabPanel("Crimes", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
                             fluidPage(
                               fluidRow(
-                                column(7, align = "center", offset = 1,
-                              plotOutput("zlocini_graph")
-                                        )
+                                column(6, h3("Crimes by their outcome"),
+                                       #align = "center", offset = 1,
+                                       plotOutput("zlocini_graph")),
+                                column(6,
+                                       h3("Crimes by type"), plotOutput("zlocini_graph1"))
                                        )
                                       )
                    ),
@@ -29,9 +31,15 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               sidebarPanel(selectInput("podatek",
                                                        label = "Select type of data",
                                                        choices = c("gender", "age", "race","official race", "object of search","outcome","type"),
-                                                       selected = "gender")
+                                                       selected = "gender"),
+                                           helpText(p("Stop-and-search investigation is a type of investigation
+                                                    where police stops individuals who are suspected of carrying anything
+                                                    illegal and questions and searches them."),br(),
+                                                    p("The charts represent data about stop-and-searches regarding 
+                                                      age of stopped individuals, their race etc.")
                                                         )
-                              )
+                              
+                              ))
                    ),
                    
                    navbarMenu("Maps", icon = icon("fa fa-globe", lib = "font-awesome"),
@@ -121,7 +129,8 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                            checkboxInput("checkbox_z", 
                                                          label = "City of London", value = TRUE),
                                            checkboxInput("checkbox_p", 
-                                                         label = "Cleveland", value = TRUE)
+                                                         label = "Cleveland", value = TRUE),
+                                           helpText("The graph shows the number of crimes/stop-and-searches in a chosen city.")
                                            ),
                               mainPanel(plotOutput("graph"),
                                         textOutput("text_graph"))
