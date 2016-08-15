@@ -65,14 +65,14 @@ shinyServer(function(input, output) {
     }
     else if (pr_podatki == "official race"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
-      plotData1 %>% View()
       plotData1 <- plotData1[order(plotData1[,2]) , ]
       
-      
+      plotData1[plotData1==""]<-"No data"
+      plotData1%>%View
       
       midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
       
-      ggplot(plotData1, aes(x = replace(factor(1), match(" ", factor(1)), "No data"), y = count, fill = uradnarasa)) + 
+      ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
         geom_bar(stat = "identity", width = 1)  + 
         coord_polar(theta = "y")+
         xlab("") + 
