@@ -54,24 +54,25 @@ shinyServer(function(input, output) {
                 scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2]))) +
                 scale_fill_discrete(name="Age", 
                                     labels=c("10-17 years", "18-24 years", "25-33 years","over 34 years"))
-      
-      
     }
     else if (pr_podatki == "race"){
       plotData1 <- tbl.preiskava %>% group_by(rasa)%>%summarise(count=count(rasa))%>%data.frame()
       
-      ggplot(plotData1, aes(x = rasa, y = count, fill = rasa)) + 
+      ggplot(plotData1, aes(x = replace(rasa, match("", rasa), "No data"), y = count, fill = rasa)) + 
         geom_bar(stat = "identity", width = 1) +
         geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.025) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "official race"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
+      plotData1 %>% View()
       plotData1 <- plotData1[order(plotData1[,2]) , ]
+      
+      
       
       midpoint <- cumsum(plotData1[,2]) - plotData1[,2]/2
       
-      ggplot(plotData1, aes(x = factor(1), y = count, fill = uradnarasa)) + 
+      ggplot(plotData1, aes(x = replace(factor(1), match(" ", factor(1)), "No data"), y = count, fill = uradnarasa)) + 
         geom_bar(stat = "identity", width = 1)  + 
         coord_polar(theta = "y")+
         xlab("") + 
@@ -82,14 +83,16 @@ shinyServer(function(input, output) {
     }
     else if (pr_podatki == "object of search"){
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
-      ggplot(plotData1, aes(x = predmetpreiskave, y = count, fill = predmetpreiskave)) + 
+      
+      ggplot(plotData1, aes(x = replace(predmetpreiskave, match("", predmetpreiskave), "No data"), y = count, fill = predmetpreiskave)) + 
         geom_bar(stat = "identity", width = 1) + 
         geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "outcome"){
       plotData1 <- tbl.preiskava %>% group_by(stanje)%>%summarise(count=count(stanje))%>%data.frame()
-      ggplot(plotData1, aes(x = stanje, y = count, fill = stanje)) + 
+      
+      ggplot(plotData1, aes(x = replace(stanje, match("", stanje), "No data"), y = count, fill = stanje)) + 
         geom_bar(stat = "identity", width = 1) + 
         geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
@@ -116,13 +119,14 @@ shinyServer(function(input, output) {
   output$zlocini_graph <- renderPlot({
     plotData <- tbl.zlocin %>% group_by(status) %>% summarise(count = count(status)) %>% data.frame()
     
-    ggplot(data=plotData, aes(x = status, y = count, fill = status)) +
+    ggplot(data=plotData, aes(x = replace(status, match("", status), "No data"), y = count, fill = status)) +
       geom_bar(colour="black", stat = "identity", width = 1) + 
       geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
       ylim(0, 46500) +
       xlab("") + ylab("") + 
       coord_flip() + theme(legend.position = 'none')
   })
+  
   
   output$graph <- renderPlot({
     vrstap=paste(input$vrstapod,sep=" ")
