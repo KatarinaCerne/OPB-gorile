@@ -33,7 +33,7 @@ shinyServer(function(input, output) {
       ggplot(plotData1, aes(x = factor(1), y = count, fill = spol)) + 
         geom_bar(stat = "identity", width = 1) + 
         coord_polar(theta = "y")+xlab("") + ylab("")+
-        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12))+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Gender", 
                             labels=c("No data", "Female", "Male"))
@@ -50,7 +50,7 @@ shinyServer(function(input, output) {
                 geom_bar(stat = "identity", width = 1) + 
                 coord_polar(theta = "y") + 
                 xlab("") + ylab("") + 
-                theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
+                theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12))+
                 scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2]))) +
                 scale_fill_discrete(name="Age", 
                                     labels=c("10-17 years", "18-24 years", "25-33 years","over 34 years"))
@@ -62,7 +62,7 @@ shinyServer(function(input, output) {
       
       ggplot(plotData1, aes(x = rasa, y = count, fill = rasa)) + 
         geom_bar(stat = "identity", width = 1) +
-        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.025) +
+        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) + ylim(0, 3500)+
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "official race"){
@@ -76,7 +76,7 @@ shinyServer(function(input, output) {
         coord_polar(theta = "y")+
         xlab("") + 
         ylab("") + 
-        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=10, angle=45))+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Official race")
     }
@@ -84,14 +84,14 @@ shinyServer(function(input, output) {
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
       ggplot(plotData1, aes(x = predmetpreiskave, y = count, fill = predmetpreiskave)) + 
         geom_bar(stat = "identity", width = 1) + 
-        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
+        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +ylim(0, 2200)+
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "outcome"){
       plotData1 <- tbl.preiskava %>% group_by(stanje)%>%summarise(count=count(stanje))%>%data.frame()
       ggplot(plotData1, aes(x = stanje, y = count, fill = stanje)) + 
         geom_bar(stat = "identity", width = 1) + 
-        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
+        geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +ylim(0, 3500)+
         xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
     }
     else if (pr_podatki == "type"){
@@ -105,7 +105,7 @@ shinyServer(function(input, output) {
         coord_polar(theta = "y")+
         xlab("") + 
         ylab("") + 
-        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank())+
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12))+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Type of search")
     }
