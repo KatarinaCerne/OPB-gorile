@@ -32,8 +32,9 @@ shinyServer(function(input, output) {
       
       ggplot(plotData1, aes(x = factor(1), y = count, fill = spol)) + 
         geom_bar(stat = "identity", width = 1) + 
-        coord_polar(theta = "y")+xlab("") + ylab("")+
-        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12))+
+        coord_polar(theta = "y")+xlab("") + ylab("")+theme_minimal()+
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12),
+              legend.text = element_text(colour="black", size = 12),legend.title = element_text(colour="black", size=15))+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Gender", 
                             labels=c("No data", "Female", "Male"))
@@ -49,8 +50,9 @@ shinyServer(function(input, output) {
       ggplot(plotData1, aes(x = factor(1),y=count,fill = factor(starostmin))) +
                 geom_bar(stat = "identity", width = 1) + 
                 coord_polar(theta = "y") + 
-                xlab("") + ylab("") + 
-                theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12))+
+                xlab("") + ylab("") + theme_minimal()+
+                theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12),
+                      legend.text = element_text(colour="black", size = 12),legend.title = element_text(colour="black", size=15))+
                 scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2]))) +
                 scale_fill_discrete(name="Age", 
                                     labels=c("10-17 years", "18-24 years", "25-33 years","over 34 years"))
@@ -61,7 +63,8 @@ shinyServer(function(input, output) {
       ggplot(plotData1, aes(x = replace(rasa, match("", rasa), "No data"), y = count, fill = rasa)) + 
         geom_bar(stat = "identity", width = 1) +
         geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) + ylim(0, 3500)+
-        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
+        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none', axis.text.y=element_text(color="black", size=12),
+                                               axis.text.x=element_text(color='black',size=12))
     }
     else if (pr_podatki == "official race"){
       plotData1 <- tbl.preiskava %>% group_by(uradnarasa)%>%summarise(count=count(uradnarasa))%>%data.frame()
@@ -75,10 +78,12 @@ shinyServer(function(input, output) {
         geom_bar(stat = "identity", width = 1)  + 
         coord_polar(theta = "y")+
         xlab("") + 
-        ylab("") + 
-        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=10, angle=45))+
+        ylab("") + theme_minimal()+
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=10, angle=45),
+              legend.text = element_text(colour="black", size = 12),legend.title = element_text(colour="black", size=15))+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Official race")
+      #+scale_fill_brewer(palette="Set2")
     }
     else if (pr_podatki == "object of search"){
       plotData1 <- tbl.preiskava %>% group_by(predmetpreiskave)%>%summarise(count=count(predmetpreiskave))%>%data.frame()
@@ -86,7 +91,8 @@ shinyServer(function(input, output) {
       ggplot(plotData1, aes(x = replace(predmetpreiskave, match("", predmetpreiskave), "No data"), y = count, fill = predmetpreiskave)) + 
         geom_bar(stat = "identity", width = 1) + 
         geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +ylim(0, 2200)+
-        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
+        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none',axis.text.y=element_text(color="black", size=12),
+                                               axis.text.x=element_text(color='black',size=12))
     }
     else if (pr_podatki == "outcome"){
       plotData1 <- tbl.preiskava %>% group_by(stanje)%>%summarise(count=count(stanje))%>%data.frame()
@@ -94,7 +100,8 @@ shinyServer(function(input, output) {
       ggplot(plotData1, aes(x = replace(stanje, match("", stanje), "No data"), y = count, fill = stanje)) + 
         geom_bar(stat = "identity", width = 1) + 
         geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +ylim(0, 3500)+
-        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none')
+        xlab("") + ylab("")+coord_flip()+theme(legend.position = 'none',axis.text.y=element_text(color="black", size=12),
+                                               axis.text.x=element_text(color='black',size=12))
     }
     else if (pr_podatki == "type"){
       plotData1 <- tbl.preiskava %>% group_by(tip) %>% summarise(count=count(tip)) %>% data.frame()
@@ -106,8 +113,9 @@ shinyServer(function(input, output) {
         geom_bar(stat = "identity", width = 1)  + 
         coord_polar(theta = "y")+
         xlab("") + 
-        ylab("") + 
-        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12))+
+        ylab("") + theme_minimal()+
+        theme(axis.ticks=element_blank(), axis.title=element_blank(), axis.text.y=element_blank(), axis.text.x=element_text(color='black',size=12),
+              legend.text = element_text(colour="black", size = 12),legend.title = element_text(colour="black", size=15))+
         scale_y_continuous(breaks=midpoint, labels=percent(plotData1[,2]/sum(plotData1[,2])))+
         scale_fill_discrete(name="Type of search")
     }
@@ -116,28 +124,28 @@ shinyServer(function(input, output) {
   
   
   output$zlocini_graph <- renderPlot({
-    #zl_podatki <- paste(input$podatek)
-    
-    #if(zl_podatki=="status"){
+
     plotData <- tbl.zlocin %>% group_by(status) %>% summarise(count = count(status)) %>% data.frame()
     
     ggplot(data=plotData, aes(x = replace(status, match("", status), "No data"), y = count, fill = status)) +
-      geom_bar(colour="black", stat = "identity", width = 1) + 
+      geom_bar( stat = "identity", width = 1) + 
       geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
       ylim(0, 46500) +
       xlab("") + ylab("") + 
-      coord_flip() + theme(legend.position = 'none')
+      coord_flip()+theme(legend.position = 'none',axis.text.y=element_text(color="black", size=11),
+                         axis.text.x=element_text(color='black',size=12))
   })
  output$zlocini_graph1 <-renderPlot({   
-    #else if(zl_podatki == "tip")
+
     plotData <- tbl.zlocin %>% group_by(tip) %>% summarise(count = count(tip)) %>% data.frame()
     
     ggplot(data=plotData, aes(x = replace(tip, match("", tip), "No data"), y = count, fill = tip)) +
-      geom_bar(colour="black", stat = "identity", width = 1) + 
+      geom_bar( stat = "identity", width = 1) + 
       geom_text(aes(label=count), position=position_dodge(width=0.9), hjust=-0.25) +
       ylim(0, 46500) +
       xlab("") + ylab("") + 
-      coord_flip() + theme(legend.position = 'none')
+      coord_flip()+theme(legend.position = 'none',axis.text.y=element_text(color="black", size=11),
+                         axis.text.x=element_text(color='black',size=12))
   }
   )
   
@@ -177,7 +185,10 @@ shinyServer(function(input, output) {
                        name = "",
                        labels = c("jan","feb","mar", "apr", "may", "jun", "jul", "avg", "sep", "oct", "nov", "dec")) + 
       scale_y_continuous(breaks=c(min(data[["count"]]), max(data[["count"]]))) +
-      scale_fill_discrete(name="Force") 
+      scale_fill_discrete(name="Force")+
+      theme(legend.text = element_text(colour="black", size = 12),legend.title = element_text(colour="black", size=15),
+            axis.text.y=element_text(color="black", size=12),
+            axis.text.x=element_text(color='black',size=12))
   })
   
   

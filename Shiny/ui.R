@@ -17,7 +17,6 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                             fluidPage(
                               fluidRow(
                                 column(6, h3("Crimes by their outcome"),
-                                       #align = "center", offset = 1,
                                        plotOutput("zlocini_graph")),
                                 column(6,
                                        h3("Crimes by type"), plotOutput("zlocini_graph1"))
