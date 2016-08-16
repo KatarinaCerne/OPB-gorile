@@ -97,12 +97,15 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                        fluidPage(position = "right",
                                          fluidRow(
                                            column(4,
-                                            h3("City of London's crime distribution map"),plotOutput("map3london")
+                                            h3("City of London's crime distribution map"),plotOutput("map3london"),
+                                            conditionalPanel(condition="$('html').hasClass('shiny-busy')",
+                                                             tags$div("Loading...",id="loadmessage")
+                                            )
                                           ),
                                           column(4,
                                             h3("Cleveland's crime distribution map"),plotOutput("map3cleveland")
                                           ),
-                                         column(3,
+                                          column(3,
                                                 helpText(
                                                   br(),
                                                   br(),
@@ -115,6 +118,7 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                                   strong("Please, be patient.")
                                                 ))
                                          )
+
                                            
                                        )
                               )
