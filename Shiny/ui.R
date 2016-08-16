@@ -62,12 +62,21 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                                        label = "Map zoom",
                                                        min = 5, max = 20, value = 14, step = 1)
                                          ),
-                                         mainPanel(plotOutput("map"))
+                                         mainPanel(conditionalPanel(condition="$('html').hasClass('shiny-busy')",
+                                                                    tags$div("Loading...",id="loadmessage")
+                                         ), plotOutput("map"))
                                        )
                               ),
                               
                               tabPanel("General crime maps",
                                       fluidPage(position = "right",
+                                        fluidRow(
+                                          column(5,
+                                            conditionalPanel(condition="$('html').hasClass('shiny-busy')",
+                                                                        tags$div("Loading...",id="loadmessage")
+                                                         )
+                                                  )
+                                                ),
                                         fluidRow(
                                           column(4,
                                             h3("City of London's map"),plotOutput("map2london")
@@ -95,15 +104,21 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                       
                               tabPanel("Crime distribution maps",
                                        fluidPage(position = "right",
+                                          fluidRow(
+                                            column(5,
+                                              conditionalPanel(condition="$('html').hasClass('shiny-busy')",
+                                                                          tags$div("Loading...",id="loadmessage")
+                                                          )
+                                                   )
+                                                 ),
                                          fluidRow(
                                            column(4,
-                                            h3("City of London's crime distribution map"),plotOutput("map3london"),
-                                            conditionalPanel(condition="$('html').hasClass('shiny-busy')",
-                                                             tags$div("Loading...",id="loadmessage")
-                                            )
+                                            h3("City of London's crime distribution map"),
+                                            plotOutput("map3london")
                                           ),
                                           column(4,
-                                            h3("Cleveland's crime distribution map"),plotOutput("map3cleveland")
+                                            h3("Cleveland's crime distribution map"),
+                                            plotOutput("map3cleveland")
                                           ),
                                           column(3,
                                                 helpText(
@@ -117,11 +132,8 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                                                   p("It may take some time to load the maps."), 
                                                   strong("Please, be patient.")
                                                 ))
-                                         )
-
-                                           
-                                       )
-                              )
+                                         )))
+                        
                     ),
                    tabPanel("Yearly statistics", icon = icon("fa fa-bar-chart", lib = "font-awesome"),
                             sidebarLayout(
@@ -138,5 +150,5 @@ shinyUI(navbarPage("Crimes in the UK", theme = shinytheme("flatly"),
                               mainPanel(plotOutput("graph"),
                                         textOutput("text_graph"))
                             )
-                   )
-))
+                   
+)))
