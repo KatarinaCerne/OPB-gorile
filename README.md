@@ -23,5 +23,4 @@
 * katarina.cerne1@student.fmf.uni-lj.si
 
 ### E-R diagram ###
-
-![Diagram1.jpeg](https://bitbucket.org/repo/BEj8z9/images/2231939701-Diagram1.jpeg)
+![Diagram2.jpeg](https://bitbucket.org/repo/BEj8z9/images/1520703216-Diagram2.jpeg)
